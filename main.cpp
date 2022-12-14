@@ -3,6 +3,7 @@
 using namespace std;
 
 void insert(int arr[10][11],int x,int rrn){
+    //if file is empty
     if(arr[0][1]==1){
         arr[0][1]=2;
         arr[1][0]=0;
@@ -10,6 +11,7 @@ void insert(int arr[10][11],int x,int rrn){
         arr[1][2]=rrn;
     }
     else if(arr[0][1]==2){
+            //file is in space to fill
             if(arr[1][10]==-1){
                     int i=1,j=1;
                     while(arr[i][j]!=-1){
@@ -29,6 +31,7 @@ void insert(int arr[10][11],int x,int rrn){
                         j-=2;
                     }
             }
+            //if record is full
             else{
                 int arr1[6],arr2[4];
                 for(int i=1;i<=6;i++){
