@@ -1,5 +1,3 @@
-
-
 #include <iostream>
 #include <algorithm>
 #include <array>
@@ -917,51 +915,105 @@ void Delete(int arr[10][11],int ID){
     while(ID>arr[1][i]){
         i+=2;
     }
-    int row=arr[1][i+1];
-    if(arr[row][0]==1){
-        i=1;
-        while(ID>arr[row][i]){
-        i+=2;
-    }
-        row=arr[row][i+1];
-        if(arr[row][0]==0){
+    if(ID!=arr[1][i]){
+        int row=arr[1][i+1];
+        if(arr[row][0]==1){
             i=1;
             while(ID>arr[row][i]){
             i+=2;
-        }
-        arr[row][i]=-1;
-        arr[row][i+1]=-1;
-        int temp=arr[row][i];
-        i+=2;
-        while(arr[row][i]!=-1){
-            int temp1=arr[row][i+1];
-            arr[row][i-2]=arr[row][i];
-            arr[row][i+1]=arr[row][i-1];
-            arr[row][i-1]=temp1;
-            arr[row][i]=temp;
-            temp=arr[row][i];
+            }
+            row=arr[row][i+1];
+            if(arr[row][0]==0){
+                i=1;
+                while(ID>arr[row][i]){
+                i+=2;
+            }
+            arr[row][i]=-1;
+            arr[row][i+1]=-1;
+            int temp=arr[row][i];
             i+=2;
+            while(arr[row][i]!=-1){
+                int temp1=arr[row][i+1];
+                arr[row][i-2]=arr[row][i];
+                arr[row][i+1]=arr[row][i-1];
+                arr[row][i-1]=temp1;
+                arr[row][i]=temp;
+                temp=arr[row][i];
+                i+=2;
+            }
+            }
         }
-        }
+            else if(arr[row][0]==0){
+                i=1;
+                while(ID>arr[row][i]){
+                i+=2;
+            }
+                arr[row][i]=-1;
+                arr[row][i+1]=-1;
+                int temp=arr[row][i];
+                i+=2;
+                while(arr[row][i]!=-1){
+                    int temp1=arr[row][i+1];
+                    arr[row][i-2]=arr[row][i];
+                    arr[row][i+1]=arr[row][i-1];
+                    arr[row][i-1]=temp1;
+                    arr[row][i]=temp;
+                    temp=arr[row][i];
+                    i+=2;
+                }
+            }
     }
-    else if(arr[row][0]==0){
-        i=1;
-        while(ID>arr[row][i]){
-        i+=2;
-    }
-        arr[row][i]=-1;
-        arr[row][i+1]=-1;
-        int temp=arr[row][i];
-        i+=2;
-        while(arr[row][i]!=-1){
-            int temp1=arr[row][i+1];
-            arr[row][i-2]=arr[row][i];
-            arr[row][i+1]=arr[row][i-1];
-            arr[row][i-1]=temp1;
-            arr[row][i]=temp;
-            temp=arr[row][i];
-            i+=2;
+    else{
+        int row=arr[1][i+1];
+        if(arr[row][0]==1){
+            int j=1;
+            while(ID>arr[row][j]){
+            j+=2;
+            }
+            int rw=arr[row][j+1];
+            if(arr[rw][0]==0){
+                int z=1;
+                while(ID>arr[rw][z]){
+                z+=2;
+            }
+            arr[rw][z]=-1;
+            arr[rw][z+1]=-1;
+            int temp=arr[rw][z];
+            z+=2;
+            while(arr[rw][z]!=-1){
+                int temp1=arr[rw][z+1];
+                arr[rw][z-2]=arr[rw][z];
+                arr[rw][z+1]=arr[rw][z-1];
+                arr[rw][z-1]=temp1;
+                arr[rw][z]=temp;
+                temp=arr[rw][z];
+                z+=2;
+            }
+            arr[row][j]=arr[rw][z-4];
+            arr[1][i]=arr[rw][z-4];
+            }
+
         }
+            else if(arr[row][0]==0){
+                int j=1;
+                while(ID>arr[row][j]){
+                j+=2;
+            }
+                arr[row][j]=-1;
+                arr[row][j+1]=-1;
+                int temp=arr[row][j];
+                j+=2;
+                while(arr[row][j]!=-1){
+                    int temp1=arr[row][j+1];
+                    arr[row][j-2]=arr[row][j];
+                    arr[row][j+1]=arr[row][j-1];
+                    arr[row][j-1]=temp1;
+                    arr[row][j]=temp;
+                    temp=arr[row][j];
+                    j+=2;
+                }
+
+            }
     }
 }
 
@@ -998,8 +1050,7 @@ int main()
     insert(x,17,216);
     insert(x,18,228);
     insert(x,32,240);
-    insert(x,31,252);
-    Delete(x,31);
+    Delete(x,10);
 
     for(int i=0;i<10;i++){
         for(int j=0;j<11;j++){
