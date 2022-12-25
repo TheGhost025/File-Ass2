@@ -5,6 +5,12 @@
 using namespace std;
 
 void insert(int arr[10][11],int x,int rrn){
+    int number=0;
+    for(int i=1;i<10;i++){
+        if(arr[i][0]==-1){
+            number++;
+        }
+    }
     //if file is empty
     if(arr[0][1]==1){
         arr[0][1]=2;
@@ -35,54 +41,71 @@ void insert(int arr[10][11],int x,int rrn){
             }
             //if record is full
             else{
-                    int arr1[12];
-                    for(int i=1;i<11;i++){
-                        arr1[i-1]=arr[1][i];
-                    }
-                    arr1[10]=x;
-                    arr1[11]=rrn;
-                    int temp=x;
-                    int i=10;
-                    i-=2;
-                    while(temp<arr1[i]){
-                        int temp1=arr1[i+3];
-                        arr1[i+2]=arr1[i];
-                        arr1[i+3]=arr1[i+1];
-                        arr1[i+1]=temp1;
-                        arr1[i]=temp;
-                        temp=arr1[i];
-                        i-=2;
-                    }
-                    int arr2[6],arr3[6];
-                    for(int i=1;i<=6;i++){
-                        arr2[i-1]=arr1[i-1];
-                    }
-                    int j=0;
-                    for(int i=7;i<=12;i++){
-                        arr3[j]=arr1[i-1];
-                        j++;
-                    }
-                    int x1=arr2[4];
-                    int x2=arr[0][1]++;
-                    int y=arr3[4];
-                    int y2=arr[0][1]++;
-                    arr[1][0]=1;
-                    arr[1][1]=x1;
-                    arr[1][2]=x2;
-                    arr[1][3]=y;
-                    arr[1][4]=y2;
-                    for(int i=5;i<11;i++){
-                        arr[1][i]=-1;
-                    }
-                    arr[x2][0]=0;
-                    arr[y2][0]=0;
-                    int size1=sizeof(arr2)/sizeof(arr2[0]);
-                    int size2=sizeof(arr3)/sizeof(arr3[0]);
-                    for(int i=1;i<=size1;i++){
-                        arr[x2][i]=arr2[i-1];
-                    }
-                    for(int i=1;i<=size2;i++){
-                        arr[y2][i]=arr3[i-1];
+                    if(number>=2){
+                            number-=2;
+                            int arr1[12];
+                            for(int i=1;i<11;i++){
+                                arr1[i-1]=arr[1][i];
+                            }
+                            arr1[10]=x;
+                            arr1[11]=rrn;
+                            int temp=x;
+                            int i=10;
+                            i-=2;
+                            while(temp<arr1[i]){
+                                int temp1=arr1[i+3];
+                                arr1[i+2]=arr1[i];
+                                arr1[i+3]=arr1[i+1];
+                                arr1[i+1]=temp1;
+                                arr1[i]=temp;
+                                temp=arr1[i];
+                                i-=2;
+                            }
+                            int arr2[6],arr3[6];
+                            for(int i=1;i<=6;i++){
+                                arr2[i-1]=arr1[i-1];
+                            }
+                            int j=0;
+                            for(int i=7;i<=12;i++){
+                                arr3[j]=arr1[i-1];
+                                j++;
+                            }
+                            int x1=arr2[4];
+                            int x2=arr[0][1];
+                            arr[x2][0]=0;
+                            int size1=sizeof(arr2)/sizeof(arr2[0]);
+                            for(int i=1;i<=size1;i++){
+                                arr[x2][i]=arr2[i-1];
+                            }
+                            int y=arr3[4];
+                            for(int i=1;i<10;i++){
+                                if(arr[i][0]==-1){
+                                    arr[0][1]=i;
+                                    break;
+                                }
+                                arr[0][1]=-1;
+                            }
+                            int y2=arr[0][1];
+                            arr[1][0]=1;
+                            arr[1][1]=x1;
+                            arr[1][2]=x2;
+                            arr[1][3]=y;
+                            arr[1][4]=y2;
+                            for(int i=5;i<11;i++){
+                                arr[1][i]=-1;
+                            }
+                            arr[y2][0]=0;
+                            int size2=sizeof(arr3)/sizeof(arr3[0]);
+                            for(int i=1;i<=size2;i++){
+                                arr[y2][i]=arr3[i-1];
+                            }
+                            for(int i=1;i<10;i++){
+                                if(arr[i][0]==-1){
+                                    arr[0][1]=i;
+                                    break;
+                                }
+                                arr[0][1]=-1;
+                            }
                     }
             }
     }
@@ -103,106 +126,115 @@ void insert(int arr[10][11],int x,int rrn){
                                     count1++;
                                 }
                                 if(count1==5){
-                                    int arr1[12];
-                                    for(int i=1;i<11;i++){
-                                        arr1[i-1]=arr[row][i];
-                                    }
-                                    arr1[10]=x;
-                                    arr1[11]=rrn;
-                                    int temp=x;
-                                    int i=10;
-                                    i-=2;
-                                    while(temp<arr1[i]){
-                                        int temp1=arr1[i+3];
-                                        arr1[i+2]=arr1[i];
-                                        arr1[i+3]=arr1[i+1];
-                                        arr1[i+1]=temp1;
-                                        arr1[i]=temp;
-                                        temp=arr1[i];
-                                        i-=2;
-                                    }
-                                    int arr2[6],arr3[6];
-                                    for(int i=1;i<=6;i++){
-                                        arr2[i-1]=arr1[i-1];
-                                    }
-                                    int j=0;
-                                    for(int i=7;i<=12;i++){
-                                        arr3[j]=arr1[i-1];
-                                        j++;
-                                    }
-                                    int x2=arr[0][1]++;
-                                    int min1=arr2[4];
-                                    int max1=arr3[4];
-                                    int arr4[5];
-                                    j=1;
-                                    i=0;
-                                    while(arr[1][j]!=-1){
-                                        arr4[i]=arr[1][j];
-                                        j+=2;
-                                        i++;
-                                    }
-                                     int size1=sizeof(arr4)/sizeof(arr4[0]);
-                                    if(find(arr4,arr4+size1,min1)!=(arr4+size1)){
-                                        for(int i=1;i<11;i+=2){
-                                            if(arr[1][i]==min1){
-                                                arr[1][i+1]=row;
-                                                break;
-                                            }
+                                        if(number>=1){
+                                                number--;
+                                                int arr1[12];
+                                                for(int i=1;i<11;i++){
+                                                    arr1[i-1]=arr[row][i];
+                                                }
+                                                arr1[10]=x;
+                                                arr1[11]=rrn;
+                                                int temp=x;
+                                                int i=10;
+                                                i-=2;
+                                                while(temp<arr1[i]){
+                                                    int temp1=arr1[i+3];
+                                                    arr1[i+2]=arr1[i];
+                                                    arr1[i+3]=arr1[i+1];
+                                                    arr1[i+1]=temp1;
+                                                    arr1[i]=temp;
+                                                    temp=arr1[i];
+                                                    i-=2;
+                                                }
+                                                int arr2[6],arr3[6];
+                                                for(int i=1;i<=6;i++){
+                                                    arr2[i-1]=arr1[i-1];
+                                                }
+                                                int j=0;
+                                                for(int i=7;i<=12;i++){
+                                                    arr3[j]=arr1[i-1];
+                                                    j++;
+                                                }
+                                                int x2=arr[0][1];
+                                                int min1=arr2[4];
+                                                int max1=arr3[4];
+                                                int arr4[5];
+                                                j=1;
+                                                i=0;
+                                                while(arr[1][j]!=-1){
+                                                    arr4[i]=arr[1][j];
+                                                    j+=2;
+                                                    i++;
+                                                }
+                                                 int size1=sizeof(arr4)/sizeof(arr4[0]);
+                                                if(find(arr4,arr4+size1,min1)!=(arr4+size1)){
+                                                    for(int i=1;i<11;i+=2){
+                                                        if(arr[1][i]==min1){
+                                                            arr[1][i+1]=row;
+                                                            break;
+                                                        }
+                                                    }
+                                                    j=1;
+                                                    while(arr[1][j]!=-1){
+                                                        j+=2;
+                                                    }
+                                                    arr[1][j]=max1;
+                                                    arr[1][j+1]=x2;
+                                                    temp=arr[1][j];
+                                                    j-=2;
+                                                    while(temp<arr[1][j]){
+                                                        int temp1=arr[1][j+3];
+                                                        arr[1][j+2]=arr[1][j];
+                                                        arr[1][j+3]=arr[1][j+1];
+                                                        arr[1][j+1]=temp1;
+                                                        arr[1][j]=temp;
+                                                        temp=arr[1][j];
+                                                        j-=2;
+                                                    }
+                                                }
+                                                else if(find(arr4,arr4+size1,max1)!=(arr4+size1)){
+                                                    for(int i=1;i<11;i+=2){
+                                                        if(arr[1][i]==max1){
+                                                            arr[1][i+1]=x2;
+                                                            break;
+                                                        }
+                                                    }
+                                                    j=1;
+                                                    while(arr[1][j]!=-1){
+                                                        j+=2;
+                                                    }
+                                                    arr[1][j]=min1;
+                                                    arr[1][j+1]=row;
+                                                    temp=arr[1][j];
+                                                    j-=2;
+                                                    while(temp<arr[1][j]){
+                                                        int temp1=arr[1][j+3];
+                                                        arr[1][j+2]=arr[1][j];
+                                                        arr[1][j+3]=arr[1][j+1];
+                                                        arr[1][j+1]=temp1;
+                                                        arr[1][j]=temp;
+                                                        temp=arr[1][j];
+                                                        j-=2;
+                                                    }
+                                                }
+                                                for(int i=1;i<=6;i++){
+                                                    arr[row][i]=arr2[i-1];
+                                                }
+                                                for(int i=7;i<=10;i++){
+                                                    arr[row][i]=-1;
+                                                }
+                                                arr[x2][0]=0;
+                                                for(int i=1;i<=6;i++){
+                                                arr[x2][i]=arr3[i-1];
+                                              }
+                                                for(int i=1;i<10;i++){
+                                                    if(arr[i][0]==-1){
+                                                        arr[0][1]=i;
+                                                        break;
+                                                    }
+                                                    arr[0][1]=-1;
+                                                }
                                         }
-                                        j=1;
-                                        while(arr[1][j]!=-1){
-                                            j+=2;
-                                        }
-                                        arr[1][j]=max1;
-                                        arr[1][j+1]=x2;
-                                        temp=arr[1][j];
-                                        j-=2;
-                                        while(temp<arr[1][j]){
-                                            int temp1=arr[1][j+3];
-                                            arr[1][j+2]=arr[1][j];
-                                            arr[1][j+3]=arr[1][j+1];
-                                            arr[1][j+1]=temp1;
-                                            arr[1][j]=temp;
-                                            temp=arr[1][j];
-                                            j-=2;
-                                        }
-                                    }
-                                    else if(find(arr4,arr4+size1,max1)!=(arr4+size1)){
-                                        for(int i=1;i<11;i+=2){
-                                            if(arr[1][i]==max1){
-                                                arr[1][i+1]=x2;
-                                                break;
-                                            }
-                                        }
-                                        j=1;
-                                        while(arr[1][j]!=-1){
-                                            j+=2;
-                                        }
-                                        arr[1][j]=min1;
-                                        arr[1][j+1]=row;
-                                        temp=arr[1][j];
-                                        j-=2;
-                                        while(temp<arr[1][j]){
-                                            int temp1=arr[1][j+3];
-                                            arr[1][j+2]=arr[1][j];
-                                            arr[1][j+3]=arr[1][j+1];
-                                            arr[1][j+1]=temp1;
-                                            arr[1][j]=temp;
-                                            temp=arr[1][j];
-                                            j-=2;
-                                        }
-                                    }
-                                    for(int i=1;i<=6;i++){
-                                        arr[row][i]=arr2[i-1];
-                                    }
-                                    for(int i=7;i<=10;i++){
-                                        arr[row][i]=-1;
-                                    }
-                                    arr[x2][0]=0;
-                                    for(int i=1;i<=6;i++){
-                                    arr[x2][i]=arr3[i-1];
-                                  }
-
                                 }
                                 else{
                                     arr[row][j]=x;
@@ -234,106 +266,115 @@ void insert(int arr[10][11],int x,int rrn){
                                                     count1++;
                                                 }
                                                 if(count1==5){
-                                                    int arr1[12];
-                                                    for(int i=1;i<11;i++){
-                                                        arr1[i-1]=arr[row][i];
-                                                    }
-                                                    arr1[10]=x;
-                                                    arr1[11]=rrn;
-                                                    int temp=x;
-                                                    int i=10;
-                                                    i-=2;
-                                                    while(temp<arr1[i]){
-                                                        int temp1=arr1[i+3];
-                                                        arr1[i+2]=arr1[i];
-                                                        arr1[i+3]=arr1[i+1];
-                                                        arr1[i+1]=temp1;
-                                                        arr1[i]=temp;
-                                                        temp=arr1[i];
-                                                        i-=2;
-                                                    }
-                                                    int arr2[6],arr3[6];
-                                                    for(int i=1;i<=6;i++){
-                                                        arr2[i-1]=arr1[i-1];
-                                                    }
-                                                    int j=0;
-                                                    for(int i=7;i<=12;i++){
-                                                        arr3[j]=arr1[i-1];
-                                                        j++;
-                                                    }
-                                                    int x2=arr[0][1]++;
-                                                    int min1=arr2[4];
-                                                    int max1=arr3[4];
-                                                    int arr4[5];
-                                                    j=1;
-                                                    i=0;
-                                                    while(arr[1][j]!=-1){
-                                                        arr4[i]=arr[1][j];
-                                                        j+=2;
-                                                        i++;
-                                                    }
-                                                     int size1=sizeof(arr4)/sizeof(arr4[0]);
-                                                    if(find(arr4,arr4+size1,min1)!=(arr4+size1)){
-                                                        for(int i=1;i<11;i+=2){
-                                                            if(arr[1][i]==min1){
-                                                                arr[1][i+1]=row;
-                                                                break;
+                                                        if(number>=1){
+                                                            number--;
+                                                            int arr1[12];
+                                                            for(int i=1;i<11;i++){
+                                                                arr1[i-1]=arr[row][i];
+                                                            }
+                                                            arr1[10]=x;
+                                                            arr1[11]=rrn;
+                                                            int temp=x;
+                                                            int i=10;
+                                                            i-=2;
+                                                            while(temp<arr1[i]){
+                                                                int temp1=arr1[i+3];
+                                                                arr1[i+2]=arr1[i];
+                                                                arr1[i+3]=arr1[i+1];
+                                                                arr1[i+1]=temp1;
+                                                                arr1[i]=temp;
+                                                                temp=arr1[i];
+                                                                i-=2;
+                                                            }
+                                                            int arr2[6],arr3[6];
+                                                            for(int i=1;i<=6;i++){
+                                                                arr2[i-1]=arr1[i-1];
+                                                            }
+                                                            int j=0;
+                                                            for(int i=7;i<=12;i++){
+                                                                arr3[j]=arr1[i-1];
+                                                                j++;
+                                                            }
+                                                            int x2=arr[0][1];
+                                                            int min1=arr2[4];
+                                                            int max1=arr3[4];
+                                                            int arr4[5];
+                                                            j=1;
+                                                            i=0;
+                                                            while(arr[1][j]!=-1){
+                                                                arr4[i]=arr[1][j];
+                                                                j+=2;
+                                                                i++;
+                                                            }
+                                                             int size1=sizeof(arr4)/sizeof(arr4[0]);
+                                                            if(find(arr4,arr4+size1,min1)!=(arr4+size1)){
+                                                                for(int i=1;i<11;i+=2){
+                                                                    if(arr[1][i]==min1){
+                                                                        arr[1][i+1]=row;
+                                                                        break;
+                                                                    }
+                                                                }
+                                                                j=1;
+                                                                while(arr[1][j]!=-1){
+                                                                    j+=2;
+                                                                }
+                                                                arr[1][j]=max1;
+                                                                arr[1][j+1]=x2;
+                                                                temp=arr[1][j];
+                                                                j-=2;
+                                                                while(temp<arr[1][j]){
+                                                                    int temp1=arr[1][j+3];
+                                                                    arr[1][j+2]=arr[1][j];
+                                                                    arr[1][j+3]=arr[1][j+1];
+                                                                    arr[1][j+1]=temp1;
+                                                                    arr[1][j]=temp;
+                                                                    temp=arr[1][j];
+                                                                    j-=2;
+                                                                }
+                                                            }
+                                                            else if(find(arr4,arr4+size1,max1)!=(arr4+size1)){
+                                                                for(int i=1;i<11;i+=2){
+                                                                    if(arr[1][i]==max1){
+                                                                        arr[1][i+1]=x2;
+                                                                        break;
+                                                                    }
+                                                                }
+                                                                j=1;
+                                                                while(arr[1][j]!=-1){
+                                                                    j+=2;
+                                                                }
+                                                                arr[1][j]=min1;
+                                                                arr[1][j+1]=row;
+                                                                temp=arr[1][j];
+                                                                j-=2;
+                                                                while(temp<arr[1][j]){
+                                                                    int temp1=arr[1][j+3];
+                                                                    arr[1][j+2]=arr[1][j];
+                                                                    arr[1][j+3]=arr[1][j+1];
+                                                                    arr[1][j+1]=temp1;
+                                                                    arr[1][j]=temp;
+                                                                    temp=arr[1][j];
+                                                                    j-=2;
+                                                                }
+                                                            }
+                                                            for(int i=1;i<=6;i++){
+                                                                arr[row][i]=arr2[i-1];
+                                                            }
+                                                            for(int i=7;i<=10;i++){
+                                                                arr[row][i]=-1;
+                                                            }
+                                                            arr[x2][0]=0;
+                                                            for(int i=1;i<=6;i++){
+                                                            arr[x2][i]=arr3[i-1];
+                                                          }
+                                                            for(int i=1;i<10;i++){
+                                                                if(arr[i][0]==-1){
+                                                                    arr[0][1]=i;
+                                                                    break;
+                                                                }
+                                                                arr[0][1]=-1;
                                                             }
                                                         }
-                                                        j=1;
-                                                        while(arr[1][j]!=-1){
-                                                            j+=2;
-                                                        }
-                                                        arr[1][j]=max1;
-                                                        arr[1][j+1]=x2;
-                                                        temp=arr[1][j];
-                                                        j-=2;
-                                                        while(temp<arr[1][j]){
-                                                            int temp1=arr[1][j+3];
-                                                            arr[1][j+2]=arr[1][j];
-                                                            arr[1][j+3]=arr[1][j+1];
-                                                            arr[1][j+1]=temp1;
-                                                            arr[1][j]=temp;
-                                                            temp=arr[1][j];
-                                                            j-=2;
-                                                        }
-                                                    }
-                                                    else if(find(arr4,arr4+size1,max1)!=(arr4+size1)){
-                                                        for(int i=1;i<11;i+=2){
-                                                            if(arr[1][i]==max1){
-                                                                arr[1][i+1]=x2;
-                                                                break;
-                                                            }
-                                                        }
-                                                        j=1;
-                                                        while(arr[1][j]!=-1){
-                                                            j+=2;
-                                                        }
-                                                        arr[1][j]=min1;
-                                                        arr[1][j+1]=row;
-                                                        temp=arr[1][j];
-                                                        j-=2;
-                                                        while(temp<arr[1][j]){
-                                                            int temp1=arr[1][j+3];
-                                                            arr[1][j+2]=arr[1][j];
-                                                            arr[1][j+3]=arr[1][j+1];
-                                                            arr[1][j+1]=temp1;
-                                                            arr[1][j]=temp;
-                                                            temp=arr[1][j];
-                                                            j-=2;
-                                                        }
-                                                    }
-                                                    for(int i=1;i<=6;i++){
-                                                        arr[row][i]=arr2[i-1];
-                                                    }
-                                                    for(int i=7;i<=10;i++){
-                                                        arr[row][i]=-1;
-                                                    }
-                                                    arr[x2][0]=0;
-                                                    for(int i=1;i<=6;i++){
-                                                    arr[x2][i]=arr3[i-1];
-                                                  }
-
                                                 }
                                                 else{
                                                     arr[row][j]=x;
@@ -381,251 +422,306 @@ void insert(int arr[10][11],int x,int rrn){
                                                                 }
                                                         }
                                                         else{
-                                                            j-=2;
-                                                            arr[1][j]=x;
-                                                            int row=arr[1][j+1];
-                                                            int arr1[12];
-                                                            for(int i=1;i<11;i++){
-                                                                arr1[i-1]=arr[row][i];
-                                                            }
-                                                            arr1[10]=x;
-                                                            arr1[11]=rrn;
-                                                            int temp=x;
-                                                            int i=10;
-                                                            i-=2;
-                                                            while(temp<arr1[i]){
-                                                                int temp1=arr1[i+3];
-                                                                arr1[i+2]=arr1[i];
-                                                                arr1[i+3]=arr1[i+1];
-                                                                arr1[i+1]=temp1;
-                                                                arr1[i]=temp;
-                                                                temp=arr1[i];
-                                                                i-=2;
-                                                            }
-                                                            int arr2[6],arr3[6];
-                                                            for(int i=1;i<=6;i++){
-                                                                arr2[i-1]=arr1[i-1];
-                                                            }
-                                                            int j=0;
-                                                            for(int i=7;i<=12;i++){
-                                                                arr3[j]=arr1[i-1];
-                                                                j++;
-                                                            }
-                                                            int x2=arr[0][1]++;
-                                                            int min1=arr2[4];
-                                                            int max1=arr3[4];
-                                                            int mn=min1;
-                                                            int mx=max1;
-                                                            int arr4[6];
-                                                            j=1;
-                                                            i=0;
-                                                            while(arr[1][j]!=-1){
-                                                                arr4[i]=arr[1][j];
-                                                                j+=2;
-                                                                i++;
-                                                            }
-                                                            int z=1;
-                                                            int count3=0;
-                                                            while(arr[1][z]!=-1&&z<10){
-                                                                z+=2;
-                                                                count3++;
-                                                            }
-                                                            if(count3!=5){
-                                                                    int size1=sizeof(arr4)/sizeof(arr4[0]);
-                                                                    if(find(arr4,arr4+size1,mn)!=(arr4+size1)){
-                                                                        for(int i=1;i<11;i+=2){
-                                                                            if(arr[1][i]==mn){
-                                                                                arr[1][i+1]=row;
-                                                                                break;
-                                                                            }
-                                                                        }
-                                                                        j=1;
-                                                                        while(arr[1][j]!=-1){
-                                                                            j+=2;
-                                                                        }
-                                                                        arr[1][j]=mx;
-                                                                        arr[1][j+1]=x2;
-                                                                        temp=arr[1][j];
-                                                                        j-=2;
-                                                                        while(temp<arr[1][j]){
-                                                                            int temp1=arr[1][j+3];
-                                                                            arr[1][j+2]=arr[1][j];
-                                                                            arr[1][j+3]=arr[1][j+1];
-                                                                            arr[1][j+1]=temp1;
-                                                                            arr[1][j]=temp;
-                                                                            temp=arr[1][j];
-                                                                            j-=2;
-                                                                        }
-                                                                    }
-                                                                    else if(find(arr4,arr4+size1,mx)!=(arr4+size1)){
-                                                                        for(int i=1;i<11;i+=2){
-                                                                            if(arr[1][i]==mx){
-                                                                                arr[1][i+1]=x2;
-                                                                                break;
-                                                                            }
-                                                                        }
-                                                                        j=1;
-                                                                        while(arr[1][j]!=-1){
-                                                                            j+=2;
-                                                                        }
-                                                                        arr[1][j]=mn;
-                                                                        arr[1][j+1]=row;
-                                                                        temp=arr[1][j];
-                                                                        j-=2;
-                                                                        while(temp<arr[1][j]){
-                                                                            int temp1=arr[1][j+3];
-                                                                            arr[1][j+2]=arr[1][j];
-                                                                            arr[1][j+3]=arr[1][j+1];
-                                                                            arr[1][j+1]=temp1;
-                                                                            arr[1][j]=temp;
-                                                                            temp=arr[1][j];
-                                                                            j-=2;
-                                                                        }
-                                                                    }
-                                                                    for(int i=1;i<=6;i++){
-                                                                        arr[row][i]=arr2[i-1];
-                                                                    }
-                                                                    for(int i=7;i<=10;i++){
-                                                                        arr[row][i]=-1;
-                                                                    }
-                                                                    arr[x2][0]=0;
-                                                                    for(int i=1;i<=6;i++){
-                                                                    arr[x2][i]=arr3[i-1];
-                                                                  }
-                                                            }
-                                                            else{
-                                                                int size1=sizeof(arr4)/sizeof(arr4[0]);
-                                                                    if(find(arr4,arr4+size1,min1)!=(arr4+size1)){
-                                                                            arr4[5]=max1;
-                                                                        for(int i=1;i<11;i+=2){
-                                                                            if(arr[1][i]==min1){
-                                                                                arr[1][i+1]=row;
-                                                                                break;
-                                                                            }
-                                                                        }
-                                                                    int arr5[12];
-                                                                    for(int i=1;i<11;i++){
-                                                                arr5[i-1]=arr[1][i];
+                                                                number-=2;
+                                                                j-=2;
+                                                                arr[1][j]=x;
+                                                                int row=arr[1][j+1];
+                                                                int arr1[12];
+                                                                for(int i=1;i<11;i++){
+                                                                    arr1[i-1]=arr[row][i];
                                                                 }
-                                                                arr5[10]=max1;
-                                                                arr5[11]=x2;
-                                                                int temp=max1;
+                                                                arr1[10]=x;
+                                                                arr1[11]=rrn;
+                                                                int temp=x;
                                                                 int i=10;
                                                                 i-=2;
-                                                                while(temp<arr5[i]){
-                                                                    int temp1=arr5[i+3];
-                                                                    arr5[i+2]=arr5[i];
-                                                                    arr5[i+3]=arr5[i+1];
-                                                                    arr5[i+1]=temp1;
-                                                                    arr5[i]=temp;
+                                                                while(temp<arr1[i]){
+                                                                    int temp1=arr1[i+3];
+                                                                    arr1[i+2]=arr1[i];
+                                                                    arr1[i+3]=arr1[i+1];
+                                                                    arr1[i+1]=temp1;
+                                                                    arr1[i]=temp;
                                                                     temp=arr1[i];
                                                                     i-=2;
                                                                 }
-                                                                int arr6[6],arr7[6];
+                                                                int arr2[6],arr3[6];
                                                                 for(int i=1;i<=6;i++){
-                                                                    arr6[i-1]=arr5[i-1];
+                                                                    arr2[i-1]=arr1[i-1];
                                                                 }
                                                                 int j=0;
                                                                 for(int i=7;i<=12;i++){
-                                                                    arr7[j]=arr5[i-1];
+                                                                    arr3[j]=arr1[i-1];
                                                                     j++;
                                                                 }
-                                                                int x3=arr[0][1]++;
-                                                                int x4=arr[0][1]++;
-                                                                int min2=arr6[4];
-                                                                int max2=arr7[4];
-                                                                arr[1][1]=min2;
-                                                                arr[1][2]=x3;
-                                                                arr[1][3]=max2;
-                                                                arr[1][4]=x4;
-                                                                for(int i=5;i<11;i++){
-                                                                    arr[1][i]=-1;
+                                                                int x2=arr[0][1];
+                                                                int min1=arr2[4];
+                                                                int max1=arr3[4];
+                                                                int mn=min1;
+                                                                int mx=max1;
+                                                                int arr4[6];
+                                                                j=1;
+                                                                i=0;
+                                                                while(arr[1][j]!=-1){
+                                                                    arr4[i]=arr[1][j];
+                                                                    j+=2;
+                                                                    i++;
                                                                 }
-                                                                arr[x3][0]=1;
-                                                                arr[x4][0]=1;
-                                                                for(int i=1;i<=6;i++){
-                                                                    arr[x3][i]=arr6[i-1];
+                                                                int z=1;
+                                                                int count3=0;
+                                                                while(arr[1][z]!=-1&&z<10){
+                                                                    z+=2;
+                                                                    count3++;
                                                                 }
-                                                                for(int i=1;i<=6;i++){
-                                                                    arr[x4][i]=arr7[i-1];
-                                                                }
-                                                                for(int i=1;i<=6;i++){
-                                                                    arr[row][i]=arr2[i-1];
-                                                                }
-                                                                for(int i=7;i<=10;i++){
-                                                                        arr[row][i]=-1;
-                                                                    }
-                                                                arr[x2][0]=0;
-                                                                for(int i=1;i<=6;i++){
-                                                                    arr[x2][i]=arr3[i-1];
-                                                              }
-                                                                    }
-                                                                    else if(find(arr4,arr4+size1,max1)!=(arr4+size1)){
-                                                                        arr4[5]=min1;
-                                                                        for(int i=1;i<11;i+=2){
-                                                                            if(arr[1][i]==max1){
-                                                                                arr[1][i+1]=x2;
-                                                                                break;
-                                                                            }
+                                                                if(count3!=5){
+                                                                        if(number>=1){
+                                                                                number--;
+                                                                                int size1=sizeof(arr4)/sizeof(arr4[0]);
+                                                                                if(find(arr4,arr4+size1,mn)!=(arr4+size1)){
+                                                                                    for(int i=1;i<11;i+=2){
+                                                                                        if(arr[1][i]==mn){
+                                                                                            arr[1][i+1]=row;
+                                                                                            break;
+                                                                                        }
+                                                                                    }
+                                                                                    j=1;
+                                                                                    while(arr[1][j]!=-1){
+                                                                                        j+=2;
+                                                                                    }
+                                                                                    arr[1][j]=mx;
+                                                                                    arr[1][j+1]=x2;
+                                                                                    temp=arr[1][j];
+                                                                                    j-=2;
+                                                                                    while(temp<arr[1][j]){
+                                                                                        int temp1=arr[1][j+3];
+                                                                                        arr[1][j+2]=arr[1][j];
+                                                                                        arr[1][j+3]=arr[1][j+1];
+                                                                                        arr[1][j+1]=temp1;
+                                                                                        arr[1][j]=temp;
+                                                                                        temp=arr[1][j];
+                                                                                        j-=2;
+                                                                                    }
+                                                                                }
+                                                                                else if(find(arr4,arr4+size1,mx)!=(arr4+size1)){
+                                                                                    for(int i=1;i<11;i+=2){
+                                                                                        if(arr[1][i]==mx){
+                                                                                            arr[1][i+1]=x2;
+                                                                                            break;
+                                                                                        }
+                                                                                    }
+                                                                                    j=1;
+                                                                                    while(arr[1][j]!=-1){
+                                                                                        j+=2;
+                                                                                    }
+                                                                                    arr[1][j]=mn;
+                                                                                    arr[1][j+1]=row;
+                                                                                    temp=arr[1][j];
+                                                                                    j-=2;
+                                                                                    while(temp<arr[1][j]){
+                                                                                        int temp1=arr[1][j+3];
+                                                                                        arr[1][j+2]=arr[1][j];
+                                                                                        arr[1][j+3]=arr[1][j+1];
+                                                                                        arr[1][j+1]=temp1;
+                                                                                        arr[1][j]=temp;
+                                                                                        temp=arr[1][j];
+                                                                                        j-=2;
+                                                                                    }
+                                                                                }
+                                                                                for(int i=1;i<=6;i++){
+                                                                                    arr[row][i]=arr2[i-1];
+                                                                                }
+                                                                                for(int i=7;i<=10;i++){
+                                                                                    arr[row][i]=-1;
+                                                                                }
+                                                                                arr[x2][0]=0;
+                                                                                for(int i=1;i<=6;i++){
+                                                                                arr[x2][i]=arr3[i-1];
+                                                                              }
+                                                                                for(int i=1;i<10;i++){
+                                                                                    if(arr[i][0]==-1){
+                                                                                        arr[0][1]=i;
+                                                                                        break;
+                                                                                    }
+                                                                                    arr[0][1]=-1;
+                                                                                }
                                                                         }
-                                                                    int arr5[12];
-                                                                    for(int i=1;i<11;i++){
-                                                                arr5[i-1]=arr[1][i];
                                                                 }
-                                                                arr5[10]=min1;
-                                                                arr5[11]=row;
-                                                                int temp=min1;
-                                                                int i=10;
-                                                                i-=2;
-                                                                while(temp<arr5[i]){
-                                                                    int temp1=arr5[i+3];
-                                                                    arr5[i+2]=arr5[i];
-                                                                    arr5[i+3]=arr5[i+1];
-                                                                    arr5[i+1]=temp1;
-                                                                    arr5[i]=temp;
-                                                                    temp=arr1[i];
-                                                                    i-=2;
-                                                                }
-                                                                int arr6[6],arr7[6];
-                                                                for(int i=1;i<=6;i++){
-                                                                    arr6[i-1]=arr5[i-1];
-                                                                }
-                                                                int j=0;
-                                                                for(int i=7;i<=12;i++){
-                                                                    arr7[j]=arr5[i-1];
-                                                                    j++;
-                                                                }
-                                                                int x3=arr[0][1]++;
-                                                                int x4=arr[0][1]++;
-                                                                int min2=arr6[4];
-                                                                int max2=arr7[4];
-                                                                arr[1][1]=min2;
-                                                                arr[1][2]=x3;
-                                                                arr[1][3]=max2;
-                                                                arr[1][4]=x4;
-                                                                for(int i=5;i<11;i++){
-                                                                    arr[1][i]=-1;
-                                                                }
-                                                                arr[x3][0]=1;
-                                                                arr[x4][0]=1;
-                                                                for(int i=1;i<=6;i++){
-                                                                    arr[x3][i]=arr6[i-1];
-                                                                }
-                                                                for(int i=1;i<=6;i++){
-                                                                    arr[x4][i]=arr7[i-1];
-                                                                }
-                                                                for(int i=1;i<=6;i++){
-                                                                    arr[row][i]=arr2[i-1];
-                                                                }
-                                                                for(int i=7;i<=10;i++){
-                                                                        arr[row][i]=-1;
-                                                                    }
-                                                                arr[x2][0]=0;
-                                                                for(int i=1;i<=6;i++){
-                                                                    arr[x2][i]=arr3[i-1];
-                                                              }
+                                                                else{
+                                                                        if(number>=3){
+                                                                                int size1=sizeof(arr4)/sizeof(arr4[0]);
+                                                                                if(find(arr4,arr4+size1,min1)!=(arr4+size1)){
+                                                                                        arr4[5]=max1;
+                                                                                        for(int i=1;i<11;i+=2){
+                                                                                            if(arr[1][i]==min1){
+                                                                                                arr[1][i+1]=row;
+                                                                                                break;
+                                                                                            }
+                                                                                        }
+                                                                                        int arr5[12];
+                                                                                        for(int i=1;i<11;i++){
+                                                                                            arr5[i-1]=arr[1][i];
+                                                                                            }
+                                                                                        arr5[10]=max1;
+                                                                                        arr5[11]=x2;
+                                                                                        int temp=max1;
+                                                                                        int i=10;
+                                                                                        i-=2;
+                                                                                        while(temp<arr5[i]){
+                                                                                            int temp1=arr5[i+3];
+                                                                                            arr5[i+2]=arr5[i];
+                                                                                            arr5[i+3]=arr5[i+1];
+                                                                                            arr5[i+1]=temp1;
+                                                                                            arr5[i]=temp;
+                                                                                            temp=arr1[i];
+                                                                                            i-=2;
+                                                                                        }
+                                                                                        int arr6[6],arr7[6];
+                                                                                        for(int i=1;i<=6;i++){
+                                                                                            arr6[i-1]=arr5[i-1];
+                                                                                        }
+                                                                                        int j=0;
+                                                                                        for(int i=7;i<=12;i++){
+                                                                                            arr7[j]=arr5[i-1];
+                                                                                            j++;
+                                                                                        }
+                                                                                        int x3=arr[0][1];
+                                                                                        arr[x3][0]=1;
+                                                                                        for(int i=1;i<10;i++){
+                                                                                            if(arr[i][0]==-1){
+                                                                                                arr[0][1]=i;
+                                                                                                break;
+                                                                                            }
+                                                                                            arr[0][1]=-1;
+                                                                                        }
+                                                                                        int x4=arr[0][1];
+                                                                                        arr[x4][0]=1;
+                                                                                        for(int i=1;i<10;i++){
+                                                                                            if(arr[i][0]==-1){
+                                                                                                arr[0][1]=i;
+                                                                                                break;
+                                                                                            }
+                                                                                            arr[0][1]=-1;
+                                                                                        }
+                                                                                        int min2=arr6[4];
+                                                                                        int max2=arr7[4];
+                                                                                        arr[1][1]=min2;
+                                                                                        arr[1][2]=x3;
+                                                                                        arr[1][3]=max2;
+                                                                                        arr[1][4]=x4;
+                                                                                        for(int i=5;i<11;i++){
+                                                                                            arr[1][i]=-1;
+                                                                                        }
+                                                                                        for(int i=1;i<=6;i++){
+                                                                                            arr[x3][i]=arr6[i-1];
+                                                                                        }
+                                                                                        for(int i=1;i<=6;i++){
+                                                                                            arr[x4][i]=arr7[i-1];
+                                                                                        }
+                                                                                        for(int i=1;i<=6;i++){
+                                                                                            arr[row][i]=arr2[i-1];
+                                                                                        }
+                                                                                        for(int i=7;i<=10;i++){
+                                                                                                arr[row][i]=-1;
+                                                                                            }
+                                                                                        arr[x2][0]=0;
+                                                                                        for(int i=1;i<=6;i++){
+                                                                                            arr[x2][i]=arr3[i-1];
+                                                                                      }
+                                                                                          for(int i=1;i<10;i++){
+                                                                                                if(arr[i][0]==-1){
+                                                                                                    arr[0][1]=i;
+                                                                                                    break;
+                                                                                                }
+                                                                                                arr[0][1]=-1;
+                                                                                            }
+                                                                                }
+                                                                                else if(find(arr4,arr4+size1,max1)!=(arr4+size1)){
+                                                                                    arr4[5]=min1;
+                                                                                    for(int i=1;i<11;i+=2){
+                                                                                        if(arr[1][i]==max1){
+                                                                                            arr[1][i+1]=x2;
+                                                                                            break;
+                                                                                        }
+                                                                                    }
+                                                                                    int arr5[12];
+                                                                                    for(int i=1;i<11;i++){
+                                                                                        arr5[i-1]=arr[1][i];
+                                                                                        }
+                                                                                    arr5[10]=min1;
+                                                                                    arr5[11]=row;
+                                                                                    int temp=min1;
+                                                                                    int i=10;
+                                                                                    i-=2;
+                                                                                    while(temp<arr5[i]){
+                                                                                        int temp1=arr5[i+3];
+                                                                                        arr5[i+2]=arr5[i];
+                                                                                        arr5[i+3]=arr5[i+1];
+                                                                                        arr5[i+1]=temp1;
+                                                                                        arr5[i]=temp;
+                                                                                        temp=arr1[i];
+                                                                                        i-=2;
+                                                                                    }
+                                                                                    int arr6[6],arr7[6];
+                                                                                    for(int i=1;i<=6;i++){
+                                                                                        arr6[i-1]=arr5[i-1];
+                                                                                    }
+                                                                                    int j=0;
+                                                                                    for(int i=7;i<=12;i++){
+                                                                                        arr7[j]=arr5[i-1];
+                                                                                        j++;
+                                                                                    }
+                                                                                    int x3=arr[0][1];
+                                                                                    arr[x3][0]=1;
+                                                                                    for(int i=1;i<10;i++){
+                                                                                        if(arr[i][0]==-1){
+                                                                                            arr[0][1]=i;
+                                                                                            break;
+                                                                                        }
+                                                                                        arr[0][1]=-1;
+                                                                                    }
+                                                                                    int x4=arr[0][1];
+                                                                                    arr[x4][0]=1;
+                                                                                    for(int i=1;i<10;i++){
+                                                                                        if(arr[i][0]==-1){
+                                                                                            arr[0][1]=i;
+                                                                                            break;
+                                                                                        }
+                                                                                        arr[0][1]=-1;
+                                                                                    }
+                                                                                    int min2=arr6[4];
+                                                                                    int max2=arr7[4];
+                                                                                    arr[1][1]=min2;
+                                                                                    arr[1][2]=x3;
+                                                                                    arr[1][3]=max2;
+                                                                                    arr[1][4]=x4;
+                                                                                    for(int i=5;i<11;i++){
+                                                                                        arr[1][i]=-1;
+                                                                                    }
+                                                                                    for(int i=1;i<=6;i++){
+                                                                                        arr[x3][i]=arr6[i-1];
+                                                                                    }
+                                                                                    for(int i=1;i<=6;i++){
+                                                                                        arr[x4][i]=arr7[i-1];
+                                                                                    }
+                                                                                    for(int i=1;i<=6;i++){
+                                                                                        arr[row][i]=arr2[i-1];
+                                                                                    }
+                                                                                    for(int i=7;i<=10;i++){
+                                                                                            arr[row][i]=-1;
+                                                                                        }
+                                                                                    arr[x2][0]=0;
+                                                                                    for(int i=1;i<=6;i++){
+                                                                                        arr[x2][i]=arr3[i-1];
+                                                                                  }
+                                                                                  for(int i=1;i<10;i++){
+                                                                                        if(arr[i][0]==-1){
+                                                                                            arr[0][1]=i;
+                                                                                            break;
+                                                                                        }
+                                                                                        arr[0][1]=-1;
+                                                                                    }
+                                                                        }
+                                                                        }
                                                             }
-                                                        }
                                                 }
                                                 }
                                                 }
@@ -690,7 +786,7 @@ void insert(int arr[10][11],int x,int rrn){
                             arr3[j]=arr1[i-1];
                             j++;
                         }
-                        int x2=arr[0][1]++;
+                        int x2=arr[0][1];
                         int min1=arr2[4];
                         int max1=arr3[4];
                         int mn=min1;
@@ -710,200 +806,255 @@ void insert(int arr[10][11],int x,int rrn){
                             count3++;
                         }
                         if(count3!=5){
-                                int size1=sizeof(arr4)/sizeof(arr4[0]);
-                                if(find(arr4,arr4+size1,mn)!=(arr4+size1)){
-                                    for(int i=1;i<11;i+=2){
-                                        if(arr[1][i]==mn){
-                                            arr[1][i+1]=row;
-                                            break;
+                                if(number>=1){
+                                    number--;
+                                    int size1=sizeof(arr4)/sizeof(arr4[0]);
+                                    if(find(arr4,arr4+size1,mn)!=(arr4+size1)){
+                                        for(int i=1;i<11;i+=2){
+                                            if(arr[1][i]==mn){
+                                                arr[1][i+1]=row;
+                                                break;
+                                            }
                                         }
-                                    }
-                                    j=1;
-                                    while(arr[1][j]!=-1){
-                                        j+=2;
-                                    }
-                                    arr[1][j]=mx;
-                                    arr[1][j+1]=x2;
-                                    temp=arr[1][j];
-                                    j-=2;
-                                    while(temp<arr[1][j]){
-                                        int temp1=arr[1][j+3];
-                                        arr[1][j+2]=arr[1][j];
-                                        arr[1][j+3]=arr[1][j+1];
-                                        arr[1][j+1]=temp1;
-                                        arr[1][j]=temp;
+                                        j=1;
+                                        while(arr[1][j]!=-1){
+                                            j+=2;
+                                        }
+                                        arr[1][j]=mx;
+                                        arr[1][j+1]=x2;
                                         temp=arr[1][j];
                                         j-=2;
-                                    }
-                                }
-                                else if(find(arr4,arr4+size1,mx)!=(arr4+size1)){
-                                    for(int i=1;i<11;i+=2){
-                                        if(arr[1][i]==mx){
-                                            arr[1][i+1]=x2;
-                                            break;
+                                        while(temp<arr[1][j]){
+                                            int temp1=arr[1][j+3];
+                                            arr[1][j+2]=arr[1][j];
+                                            arr[1][j+3]=arr[1][j+1];
+                                            arr[1][j+1]=temp1;
+                                            arr[1][j]=temp;
+                                            temp=arr[1][j];
+                                            j-=2;
                                         }
                                     }
-                                    j=1;
-                                    while(arr[1][j]!=-1){
-                                        j+=2;
-                                    }
-                                    arr[1][j]=mn;
-                                    arr[1][j+1]=row;
-                                    temp=arr[1][j];
-                                    j-=2;
-                                    while(temp<arr[1][j]){
-                                        int temp1=arr[1][j+3];
-                                        arr[1][j+2]=arr[1][j];
-                                        arr[1][j+3]=arr[1][j+1];
-                                        arr[1][j+1]=temp1;
-                                        arr[1][j]=temp;
+                                    else if(find(arr4,arr4+size1,mx)!=(arr4+size1)){
+                                        for(int i=1;i<11;i+=2){
+                                            if(arr[1][i]==mx){
+                                                arr[1][i+1]=x2;
+                                                break;
+                                            }
+                                        }
+                                        j=1;
+                                        while(arr[1][j]!=-1){
+                                            j+=2;
+                                        }
+                                        arr[1][j]=mn;
+                                        arr[1][j+1]=row;
                                         temp=arr[1][j];
                                         j-=2;
+                                        while(temp<arr[1][j]){
+                                            int temp1=arr[1][j+3];
+                                            arr[1][j+2]=arr[1][j];
+                                            arr[1][j+3]=arr[1][j+1];
+                                            arr[1][j+1]=temp1;
+                                            arr[1][j]=temp;
+                                            temp=arr[1][j];
+                                            j-=2;
+                                        }
                                     }
+                                    for(int i=1;i<=6;i++){
+                                        arr[row][i]=arr2[i-1];
+                                    }
+                                    for(int i=7;i<=10;i++){
+                                        arr[row][i]=-1;
+                                    }
+                                    arr[x2][0]=0;
+                                    for(int i=1;i<10;i++){
+                                        if(arr[i][0]==-1){
+                                            arr[0][1]=i;
+                                            break;
+                                        }
+                                        arr[0][1]=-1;
+                                    }
+                                    for(int i=1;i<=6;i++){
+                                    arr[x2][i]=arr3[i-1];
+                                  }
                                 }
-                                for(int i=1;i<=6;i++){
-                                    arr[row][i]=arr2[i-1];
-                                }
-                                for(int i=7;i<=10;i++){
-                                    arr[row][i]=-1;
-                                }
-                                arr[x2][0]=0;
-                                for(int i=1;i<=6;i++){
-                                arr[x2][i]=arr3[i-1];
-                              }
                         }
                         else{
-                            int size1=sizeof(arr4)/sizeof(arr4[0]);
-                                if(find(arr4,arr4+size1,min1)!=(arr4+size1)){
-                                        arr4[5]=max1;
-                                    for(int i=1;i<11;i+=2){
-                                        if(arr[1][i]==min1){
-                                            arr[1][i+1]=row;
+                                if(number>=3){
+                                        number-=3;
+                                        int size1=sizeof(arr4)/sizeof(arr4[0]);
+                                        if(find(arr4,arr4+size1,min1)!=(arr4+size1)){
+                                                arr4[5]=max1;
+                                            for(int i=1;i<11;i+=2){
+                                                if(arr[1][i]==min1){
+                                                    arr[1][i+1]=row;
+                                                    break;
+                                                }
+                                            }
+                                        int arr5[12];
+                                        for(int i=1;i<11;i++){
+                                    arr5[i-1]=arr[1][i];
+                                    }
+                                    arr5[10]=max1;
+                                    arr5[11]=x2;
+                                    int temp=max1;
+                                    int i=10;
+                                    i-=2;
+                                    while(temp<arr5[i]){
+                                        int temp1=arr5[i+3];
+                                        arr5[i+2]=arr5[i];
+                                        arr5[i+3]=arr5[i+1];
+                                        arr5[i+1]=temp1;
+                                        arr5[i]=temp;
+                                        temp=arr1[i];
+                                        i-=2;
+                                    }
+                                    int arr6[6],arr7[6];
+                                    for(int i=1;i<=6;i++){
+                                        arr6[i-1]=arr5[i-1];
+                                    }
+                                    int j=0;
+                                    for(int i=7;i<=12;i++){
+                                        arr7[j]=arr5[i-1];
+                                        j++;
+                                    }
+                                    int x3=arr[0][1];
+                                    int x4=arr[0][1];
+                                    int min2=arr6[4];
+                                    int max2=arr7[4];
+                                    arr[1][1]=min2;
+                                    arr[1][2]=x3;
+                                    arr[1][3]=max2;
+                                    arr[1][4]=x4;
+                                    for(int i=5;i<11;i++){
+                                        arr[1][i]=-1;
+                                    }
+                                    arr[x3][0]=1;
+                                    for(int i=1;i<10;i++){
+                                        if(arr[i][0]==-1){
+                                            arr[0][1]=i;
                                             break;
                                         }
+                                        arr[0][1]=-1;
                                     }
-                                int arr5[12];
-                                for(int i=1;i<11;i++){
-                            arr5[i-1]=arr[1][i];
-                            }
-                            arr5[10]=max1;
-                            arr5[11]=x2;
-                            int temp=max1;
-                            int i=10;
-                            i-=2;
-                            while(temp<arr5[i]){
-                                int temp1=arr5[i+3];
-                                arr5[i+2]=arr5[i];
-                                arr5[i+3]=arr5[i+1];
-                                arr5[i+1]=temp1;
-                                arr5[i]=temp;
-                                temp=arr1[i];
-                                i-=2;
-                            }
-                            int arr6[6],arr7[6];
-                            for(int i=1;i<=6;i++){
-                                arr6[i-1]=arr5[i-1];
-                            }
-                            int j=0;
-                            for(int i=7;i<=12;i++){
-                                arr7[j]=arr5[i-1];
-                                j++;
-                            }
-                            int x3=arr[0][1]++;
-                            int x4=arr[0][1]++;
-                            int min2=arr6[4];
-                            int max2=arr7[4];
-                            arr[1][1]=min2;
-                            arr[1][2]=x3;
-                            arr[1][3]=max2;
-                            arr[1][4]=x4;
-                            for(int i=5;i<11;i++){
-                                arr[1][i]=-1;
-                            }
-                            arr[x3][0]=1;
-                            arr[x4][0]=1;
-                            for(int i=1;i<=6;i++){
-                                arr[x3][i]=arr6[i-1];
-                            }
-                            for(int i=1;i<=6;i++){
-                                arr[x4][i]=arr7[i-1];
-                            }
-                            for(int i=1;i<=6;i++){
-                                arr[row][i]=arr2[i-1];
-                            }
-                            for(int i=7;i<=10;i++){
-                                    arr[row][i]=-1;
-                                }
-                            arr[x2][0]=0;
-                            for(int i=1;i<=6;i++){
-                                arr[x2][i]=arr3[i-1];
-                          }
-                                }
-                                else if(find(arr4,arr4+size1,max1)!=(arr4+size1)){
-                                    arr4[5]=min1;
-                                    for(int i=1;i<11;i+=2){
-                                        if(arr[1][i]==max1){
-                                            arr[1][i+1]=x2;
+                                    arr[x4][0]=1;
+                                    for(int i=1;i<10;i++){
+                                        if(arr[i][0]==-1){
+                                            arr[0][1]=i;
                                             break;
                                         }
+                                        arr[0][1]=-1;
                                     }
-                                int arr5[12];
-                                for(int i=1;i<11;i++){
-                            arr5[i-1]=arr[1][i];
-                            }
-                            arr5[10]=min1;
-                            arr5[11]=row;
-                            int temp=min1;
-                            int i=10;
-                            i-=2;
-                            while(temp<arr5[i]){
-                                int temp1=arr5[i+3];
-                                arr5[i+2]=arr5[i];
-                                arr5[i+3]=arr5[i+1];
-                                arr5[i+1]=temp1;
-                                arr5[i]=temp;
-                                temp=arr1[i];
-                                i-=2;
-                            }
-                            int arr6[6],arr7[6];
-                            for(int i=1;i<=6;i++){
-                                arr6[i-1]=arr5[i-1];
-                            }
-                            int j=0;
-                            for(int i=7;i<=12;i++){
-                                arr7[j]=arr5[i-1];
-                                j++;
-                            }
-                            int x3=arr[0][1]++;
-                            int x4=arr[0][1]++;
-                            int min2=arr6[4];
-                            int max2=arr7[4];
-                            arr[1][1]=min2;
-                            arr[1][2]=x3;
-                            arr[1][3]=max2;
-                            arr[1][4]=x4;
-                            for(int i=5;i<11;i++){
-                                arr[1][i]=-1;
-                            }
-                            arr[x3][0]=1;
-                            arr[x4][0]=1;
-                            for(int i=1;i<=6;i++){
-                                arr[x3][i]=arr6[i-1];
-                            }
-                            for(int i=1;i<=6;i++){
-                                arr[x4][i]=arr7[i-1];
-                            }
-                            for(int i=1;i<=6;i++){
-                                arr[row][i]=arr2[i-1];
-                            }
-                            for(int i=7;i<=10;i++){
-                                    arr[row][i]=-1;
+                                    for(int i=1;i<=6;i++){
+                                        arr[x3][i]=arr6[i-1];
+                                    }
+                                    for(int i=1;i<=6;i++){
+                                        arr[x4][i]=arr7[i-1];
+                                    }
+                                    for(int i=1;i<=6;i++){
+                                        arr[row][i]=arr2[i-1];
+                                    }
+                                    for(int i=7;i<=10;i++){
+                                            arr[row][i]=-1;
+                                        }
+                                    arr[x2][0]=0;
+                                    for(int i=1;i<10;i++){
+                                        if(arr[i][0]==-1){
+                                            arr[0][1]=i;
+                                            break;
+                                        }
+                                        arr[0][1]=-1;
+                                    }
+                                    for(int i=1;i<=6;i++){
+                                        arr[x2][i]=arr3[i-1];
+                                  }
+                                        }
+                                        else if(find(arr4,arr4+size1,max1)!=(arr4+size1)){
+                                            arr4[5]=min1;
+                                            for(int i=1;i<11;i+=2){
+                                                if(arr[1][i]==max1){
+                                                    arr[1][i+1]=x2;
+                                                    break;
+                                                }
+                                            }
+                                        int arr5[12];
+                                        for(int i=1;i<11;i++){
+                                    arr5[i-1]=arr[1][i];
+                                    }
+                                    arr5[10]=min1;
+                                    arr5[11]=row;
+                                    int temp=min1;
+                                    int i=10;
+                                    i-=2;
+                                    while(temp<arr5[i]){
+                                        int temp1=arr5[i+3];
+                                        arr5[i+2]=arr5[i];
+                                        arr5[i+3]=arr5[i+1];
+                                        arr5[i+1]=temp1;
+                                        arr5[i]=temp;
+                                        temp=arr1[i];
+                                        i-=2;
+                                    }
+                                    int arr6[6],arr7[6];
+                                    for(int i=1;i<=6;i++){
+                                        arr6[i-1]=arr5[i-1];
+                                    }
+                                    int j=0;
+                                    for(int i=7;i<=12;i++){
+                                        arr7[j]=arr5[i-1];
+                                        j++;
+                                    }
+                                    int min2=arr6[4];
+                                    int max2=arr7[4];
+                                    arr[1][1]=min2;
+                                    arr[1][3]=max2;
+                                    for(int i=5;i<11;i++){
+                                        arr[1][i]=-1;
+                                    }
+                                    arr[x2][0]=0;
+                                    for(int i=1;i<10;i++){
+                                        if(arr[i][0]==-1){
+                                            arr[0][1]=i;
+                                            break;
+                                        }
+                                        arr[0][1]=-1;
+                                    }
+                                    int x3=arr[0][1];
+                                    arr[x3][0]=1;
+                                    arr[1][2]=x3;
+                                    for(int i=1;i<10;i++){
+                                        if(arr[i][0]==-1){
+                                            arr[0][1]=i;
+                                            break;
+                                        }
+                                        arr[0][1]=-1;
+                                    }
+                                    int x4=arr[0][1];
+                                    arr[x4][0]=1;
+                                    arr[1][4]=x4;
+                                    for(int i=1;i<10;i++){
+                                        if(arr[i][0]==-1){
+                                            arr[0][1]=i;
+                                            break;
+                                        }
+                                        arr[0][1]=-1;
+                                    }
+                                    for(int i=1;i<=6;i++){
+                                        arr[x3][i]=arr6[i-1];
+                                    }
+                                    for(int i=1;i<=6;i++){
+                                        arr[x4][i]=arr7[i-1];
+                                    }
+                                    for(int i=1;i<=6;i++){
+                                        arr[row][i]=arr2[i-1];
+                                    }
+                                    for(int i=7;i<=10;i++){
+                                            arr[row][i]=-1;
+                                        }
+                                    for(int i=1;i<=6;i++){
+                                        arr[x2][i]=arr3[i-1];
+                                  }
                                 }
-                            arr[x2][0]=0;
-                            for(int i=1;i<=6;i++){
-                                arr[x2][i]=arr3[i-1];
-                          }
-                        }
+                                }
                     }
             }
     }
