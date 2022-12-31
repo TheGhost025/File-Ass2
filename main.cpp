@@ -1,8 +1,56 @@
 #include <iostream>
+#include <fstream>
 #include <algorithm>
 #include <array>
+#include <vector>
 
 using namespace std;
+
+void CreateIndexFileFile(char* filename, int numberOfRecords, int m){
+    fstream file(filename,ios::in|ios::out|ios::app);
+     for(int i=0;i<numberOfRecords;i++){
+        for(int j=0;j<numberOfRecords+1;j++){
+            if(j==1){
+                int z=i+1;
+                file.write((char*)& z,sizeof(int));
+            }
+            else{
+                int z=-1;
+                file.write((char*)& z,sizeof(int));
+            }
+        }
+    }
+}
+
+void DisplayIndexFileContent (char* filename){
+    fstream file(filename,ios::in|ios::out|ios::app);
+     for(int i=0;i<10;i++){
+        for(int j=0;j<11;j++){
+                int z;
+                file.read((char*)&z,sizeof(int));
+                cout<<z;
+        }
+        cout<<endl;
+    }
+}
+
+void readFile(int arr[10][11]){
+    fstream file("btree.txt",ios::in|ios::out|ios::app);
+    for(int i=0;i<10;i++){
+        for(int j=0;j<11;j++){
+                file.read((char*)&arr[i][j],sizeof(int));
+        }
+    }
+}
+
+void writeFile(int arr[10][11]){
+    fstream file("btree.txt",ios::in|ios::out|ios::app);
+    for(int i=0;i<10;i++){
+        for(int j=0;j<11;j++){
+                file.write((char*)&arr[i][j],sizeof(int));
+        }
+    }
+}
 
 void insert(int arr[10][11],int x,int rrn){
     int number=0;
@@ -583,6 +631,14 @@ void insert(int arr[10][11],int x,int rrn){
                                                                                             arr7[j]=arr5[i-1];
                                                                                             j++;
                                                                                         }
+                                                                                        arr[x2][0]=0;
+                                                                                        for(int i=1;i<10;i++){
+                                                                                                if(arr[i][0]==-1){
+                                                                                                    arr[0][1]=i;
+                                                                                                    break;
+                                                                                                }
+                                                                                                arr[0][1]=-1;
+                                                                                            }
                                                                                         int x3=arr[0][1];
                                                                                         arr[x3][0]=1;
                                                                                         for(int i=1;i<10;i++){
@@ -622,17 +678,9 @@ void insert(int arr[10][11],int x,int rrn){
                                                                                         for(int i=7;i<=10;i++){
                                                                                                 arr[row][i]=-1;
                                                                                             }
-                                                                                        arr[x2][0]=0;
                                                                                         for(int i=1;i<=6;i++){
                                                                                             arr[x2][i]=arr3[i-1];
                                                                                       }
-                                                                                          for(int i=1;i<10;i++){
-                                                                                                if(arr[i][0]==-1){
-                                                                                                    arr[0][1]=i;
-                                                                                                    break;
-                                                                                                }
-                                                                                                arr[0][1]=-1;
-                                                                                            }
                                                                                 }
                                                                                 else if(find(arr4,arr4+size1,max1)!=(arr4+size1)){
                                                                                     arr4[5]=min1;
@@ -1069,54 +1117,6 @@ void Delete(int arr[10][11],int ID){
     if(ID!=arr[1][i]){
         int row=arr[1][i+1];
         if(arr[row][0]==1){
-            i=1;
-            while(ID>arr[row][i]){
-            i+=2;
-            }
-            row=arr[row][i+1];
-            if(arr[row][0]==0){
-                i=1;
-                while(ID>arr[row][i]){
-                i+=2;
-            }
-            arr[row][i]=-1;
-            arr[row][i+1]=-1;
-            int temp=arr[row][i];
-            i+=2;
-            while(arr[row][i]!=-1){
-                int temp1=arr[row][i+1];
-                arr[row][i-2]=arr[row][i];
-                arr[row][i+1]=arr[row][i-1];
-                arr[row][i-1]=temp1;
-                arr[row][i]=temp;
-                temp=arr[row][i];
-                i+=2;
-            }
-            }
-        }
-            else if(arr[row][0]==0){
-                i=1;
-                while(ID>arr[row][i]){
-                i+=2;
-            }
-                arr[row][i]=-1;
-                arr[row][i+1]=-1;
-                int temp=arr[row][i];
-                i+=2;
-                while(arr[row][i]!=-1){
-                    int temp1=arr[row][i+1];
-                    arr[row][i-2]=arr[row][i];
-                    arr[row][i+1]=arr[row][i-1];
-                    arr[row][i-1]=temp1;
-                    arr[row][i]=temp;
-                    temp=arr[row][i];
-                    i+=2;
-                }
-            }
-    }
-    else{
-        int row=arr[1][i+1];
-        if(arr[row][0]==1){
             int j=1;
             while(ID>arr[row][j]){
             j+=2;
@@ -1140,8 +1140,170 @@ void Delete(int arr[10][11],int ID){
                 temp=arr[rw][z];
                 z+=2;
             }
+             int k=1;
+            int count3=0;
+            while(arr[rw][k]!=-1){
+                count3++;
+                k+=2;
+            }
+            if(count3<=1){
+                    int row1=arr[row][j-1];
+                    int o=j-1;
+                    arr[row][o]=-1;
+                    o--;
+                    arr[row][o]=-1;
+                    o+=2;
+                    while(arr[row][o]!=-1){
+                        int temp1=arr[row][o+1];
+                        arr[row][o-2]=arr[row][o];
+                        arr[row][o+1]=arr[row][o-1];
+                        arr[row][o-1]=temp1;
+                        arr[row][o]=temp;
+                        temp=arr[row][o];
+                        o+=2;
+                    }
+                   vector<int> arr1;
+                   int l=1;
+                   while(arr[row1][l]!=-1){
+                        arr1.push_back(arr[row1][l]);
+                        l++;
+                   }
+                   l=0;
+                    while(arr[row1][l]!=-1){
+                        arr[row1][l]=-1;
+                        l++;
+                   }
+                   arr[0][1]=row1;
+                   for(int i=0;i<arr1.size();i+=2){
+                        insert(arr,arr1[i],arr1[i+1]);
+                   }
+                }
+           }
+        }
+            else if(arr[row][0]==0){
+                int j=1;
+                while(ID>arr[row][i]){
+                j+=2;
+            }
+                arr[row][j]=-1;
+                arr[row][j+1]=-1;
+                int temp=arr[row][j];
+                j+=2;
+                while(arr[row][j]!=-1){
+                    int temp1=arr[row][j+1];
+                    arr[row][j-2]=arr[row][j];
+                    arr[row][j+1]=arr[row][j-1];
+                    arr[row][j-1]=temp1;
+                    arr[row][j]=temp;
+                    temp=arr[row][j];
+                    j+=2;
+                }
+                int k=1;
+            int count3=0;
+            while(arr[row][k]!=-1){
+                count3++;
+                k+=2;
+            }
+            if(count3<=1){
+                    int row1=arr[1][i-1];
+                    int o=j-1;
+                    arr[row][o]=-1;
+                    o--;
+                    arr[row][o]=-1;
+                    o+=2;
+                    while(arr[1][o]!=-1){
+                        int temp1=arr[1][o+1];
+                        arr[1][o-2]=arr[1][o];
+                        arr[1][o+1]=arr[1][o-1];
+                        arr[1][o-1]=temp1;
+                        arr[1][o]=temp;
+                        temp=arr[1][o];
+                        o+=2;
+                    }
+                   vector<int> arr1;
+                   int l=1;
+                   while(arr[row1][l]!=-1){
+                        arr1.push_back(arr[row1][l]);
+                        l++;
+                   }
+                   l=0;
+                    while(arr[row1][l]!=-1){
+                        arr[row1][l]=-1;
+                        l++;
+                   }
+                   arr[0][1]=row1;
+                   for(int i=0;i<arr1.size();i+=2){
+                        insert(arr,arr1[i],arr1[i+1]);
+                   }
+                }
+            }
+    }
+    else{
+        int row=arr[1][i+1];
+        if(arr[row][0]==1){
+            int j=1;
+            while(ID>arr[row][j]){
+            j+=2;
+            }
+            int rw=arr[row][j+1];
+            if(arr[rw][0]==0){
+            int z=1;
+            while(ID>arr[rw][z]){
+                z+=2;
+            }
+            arr[rw][z]=-1;
+            arr[rw][z+1]=-1;
+            int temp=arr[rw][z];
+            z+=2;
+            while(arr[rw][z]!=-1){
+                int temp1=arr[rw][z+1];
+                arr[rw][z-2]=arr[rw][z];
+                arr[rw][z+1]=arr[rw][z-1];
+                arr[rw][z-1]=temp1;
+                arr[rw][z]=temp;
+                temp=arr[rw][z];
+                z+=2;
+            }
             arr[row][j]=arr[rw][z-4];
             arr[1][i]=arr[rw][z-4];
+            int k=1;
+            int count3=0;
+            while(arr[rw][k]!=-1){
+                count3++;
+                k+=2;
+            }
+            if(count3<=1){
+                    int row1=arr[row][j-1];
+                    int o=j-1;
+                    arr[row][o]=-1;
+                    o--;
+                    arr[row][o]=-1;
+                    o+=2;
+                    while(arr[row][o]!=-1){
+                        int temp1=arr[row][o+1];
+                        arr[row][o-2]=arr[row][o];
+                        arr[row][o+1]=arr[row][o-1];
+                        arr[row][o-1]=temp1;
+                        arr[row][o]=temp;
+                        temp=arr[row][o];
+                        o+=2;
+                    }
+                   vector<int> arr1;
+                   int l=1;
+                   while(arr[row1][l]!=-1){
+                        arr1.push_back(arr[row1][l]);
+                        l++;
+                   }
+                   l=0;
+                    while(arr[row1][l]!=-1){
+                        arr[row1][l]=-1;
+                        l++;
+                   }
+                   arr[0][1]=row1;
+                   for(int i=0;i<arr1.size();i+=2){
+                        insert(arr,arr1[i],arr1[i+1]);
+                   }
+                }
             }
 
         }
@@ -1163,52 +1325,94 @@ void Delete(int arr[10][11],int ID){
                     temp=arr[row][j];
                     j+=2;
                 }
-
+                i=1;
+                int count3=0;
+                while(arr[row][i]!=-1){
+                    count3++;
+                    i+=2;
+                }
+                if(count3<=1){
+                    int row1=arr[1][j-1];
+                    int o=j-1;
+                    arr[1][o]=-1;
+                    o--;
+                    arr[1][o]=-1;
+                    o+=2;
+                    while(arr[1][o]!=-1){
+                        int temp1=arr[1][o+1];
+                        arr[1][o-2]=arr[1][o];
+                        arr[1][o+1]=arr[1][o-1];
+                        arr[1][o-1]=temp1;
+                        arr[1][o]=temp;
+                        temp=arr[1][o];
+                        o+=2;
+                    }
+                   vector<int> arr1;
+                   int l=1;
+                   while(arr[row1][l]!=-1){
+                        arr1.push_back(arr[row1][l]);
+                        l++;
+                   }
+                   l=0;
+                    while(arr[row1][l]!=-1){
+                        arr[row1][l]=-1;
+                        l++;
+                   }
+                   arr[0][1]=row1;
+                   for(int i=0;i<arr1.size();i+=2){
+                        insert(arr,arr1[i],arr1[i+1]);
+                   }
+                }
             }
     }
 }
 
 int main()
 {
-    int x[10][11];
-    for(int i=0;i<10;i++){
-        for(int j=0;j<11;j++){
-            if(j==1){
-                x[i][j]=i+1;
-            }
-            else{
-                x[i][j]=-1;
-            }
-        }
-    }
+//    int x[10][11];
+//    for(int i=0;i<10;i++){
+//        for(int j=0;j<11;j++){
+//            if(j==1){
+//                x[i][j]=i+1;
+//            }
+//            else{
+//                x[i][j]=-1;
+//            }
+//        }
+//    }
+//
+//    insert(x,3,12);
+//    insert(x,7,24);
+//    insert(x,10,48);
+//    insert(x,24,60);
+//    insert(x,14,72);
+//    insert(x,19,84);
+//    insert(x,30,96);
+//    insert(x,15,108);
+//    insert(x,1,120);
+//    insert(x,5,132);
+//    insert(x,2,144);
+//    insert(x,8,156);
+//    insert(x,9,168);
+//    insert(x,6,180);
+//    insert(x,11,192);
+//    insert(x,12,204);
+//    insert(x,17,216);
+//    insert(x,18,228);
+//    insert(x,32,240);
+//    Delete(x,10);
+//    Delete(x,9);
+//    Delete(x,8);
+//
+//    for(int i=0;i<10;i++){
+//        for(int j=0;j<11;j++){
+//            cout<<x[i][j]<<" ";
+//        }
+//        cout<<endl;
+//    }
 
-    insert(x,3,12);
-    insert(x,7,24);
-    insert(x,10,48);
-    insert(x,24,60);
-    insert(x,14,72);
-    insert(x,19,84);
-    insert(x,30,96);
-    insert(x,15,108);
-    insert(x,1,120);
-    insert(x,5,132);
-    insert(x,2,144);
-    insert(x,8,156);
-    insert(x,9,168);
-    insert(x,6,180);
-    insert(x,11,192);
-    insert(x,12,204);
-    insert(x,17,216);
-    insert(x,18,228);
-    insert(x,32,240);
-    Delete(x,10);
 
-    for(int i=0;i<10;i++){
-        for(int j=0;j<11;j++){
-            cout<<x[i][j]<<" ";
-        }
-        cout<<endl;
-    }
-
+//CreateIndexFileFile("btree.txt",10,5);
+//DisplayIndexFileContent("btree.txt");
     return 0;
 }
