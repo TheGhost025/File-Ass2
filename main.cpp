@@ -20,39 +20,45 @@ void CreateIndexFileFile(char* filename, int numberOfRecords, int m){
             }
         }
     }
+    file.close();
 }
 
 void DisplayIndexFileContent (char* filename){
-    fstream file(filename,ios::in|ios::out|ios::app);
+    fstream file(filename,ios::in|ios::out);
      for(int i=0;i<10;i++){
         for(int j=0;j<11;j++){
                 int z;
                 file.read((char*)&z,sizeof(int));
-                cout<<z;
+                cout<<z<<" ";
         }
         cout<<endl;
     }
+    file.close();
 }
 
-void readFile(int arr[10][11]){
-    fstream file("btree.txt",ios::in|ios::out|ios::app);
+void readFile(int arr[10][11],char* filename){
+    fstream file(filename,ios::in|ios::out);
     for(int i=0;i<10;i++){
         for(int j=0;j<11;j++){
                 file.read((char*)&arr[i][j],sizeof(int));
         }
     }
+    file.close();
 }
 
-void writeFile(int arr[10][11]){
-    fstream file("btree.txt",ios::in|ios::out|ios::app);
+void writeFile(int arr[10][11],char* filename){
+    fstream file(filename,ios::in|ios::out);
     for(int i=0;i<10;i++){
         for(int j=0;j<11;j++){
                 file.write((char*)&arr[i][j],sizeof(int));
         }
     }
+    file.close();
 }
 
-void insert(int arr[10][11],int x,int rrn){
+int InsertNewRecordAtIndex(char* filename,int x,int rrn){
+    int arr[10][11];
+    readFile(arr,filename);
     int number=0;
     for(int i=1;i<10;i++){
         if(arr[i][0]==-1){
@@ -65,6 +71,8 @@ void insert(int arr[10][11],int x,int rrn){
         arr[1][0]=0;
         arr[1][1]=x;
         arr[1][2]=rrn;
+        writeFile(arr,filename);
+        return 1;
     }
     else if(arr[0][1]==2){
             //file is in space to fill
@@ -86,6 +94,8 @@ void insert(int arr[10][11],int x,int rrn){
                         temp=arr[i][j];
                         j-=2;
                     }
+                    writeFile(arr,filename);
+                    return 1;
             }
             //if record is full
             else{
@@ -153,6 +163,13 @@ void insert(int arr[10][11],int x,int rrn){
                                     break;
                                 }
                                 arr[0][1]=-1;
+                            }
+                            writeFile(arr,filename);
+                            if(find(arr2,arr2+6,x)!=arr2+6){
+                                return x2;
+                            }
+                            else{
+                                return y2;
                             }
                     }
             }
@@ -282,6 +299,13 @@ void insert(int arr[10][11],int x,int rrn){
                                                     }
                                                     arr[0][1]=-1;
                                                 }
+                                                writeFile(arr,filename);
+                                                if(find(arr2,arr2+6,x)!=arr2+6){
+                                                    return row;
+                                                }
+                                                else{
+                                                    return x2;
+                                                }
                                         }
                                 }
                                 else{
@@ -298,6 +322,8 @@ void insert(int arr[10][11],int x,int rrn){
                                         temp=arr[row][j];
                                         j-=2;
                                         }
+                                        writeFile(arr,filename);
+                                        return row;
                                 }
                                 }
                                 else{
@@ -422,6 +448,13 @@ void insert(int arr[10][11],int x,int rrn){
                                                                 }
                                                                 arr[0][1]=-1;
                                                             }
+                                                            writeFile(arr,filename);
+                                                            if(find(arr2,arr2+6,x)!=arr2+6){
+                                                                    return row;
+                                                                }
+                                                                else{
+                                                                    return x2;
+                                                                }
                                                         }
                                                 }
                                                 else{
@@ -438,6 +471,8 @@ void insert(int arr[10][11],int x,int rrn){
                                                         temp=arr[row][j];
                                                         j-=2;
                                                         }
+                                                        writeFile(arr,filename);
+                                                        return row;
                                                 }
                                                 }
                                                 else{
@@ -468,6 +503,8 @@ void insert(int arr[10][11],int x,int rrn){
                                                                 temp=arr[row][j];
                                                                 j-=2;
                                                                 }
+                                                                writeFile(arr,filename);
+                                                                return row;
                                                         }
                                                         else{
                                                                 number-=2;
@@ -591,6 +628,13 @@ void insert(int arr[10][11],int x,int rrn){
                                                                                     }
                                                                                     arr[0][1]=-1;
                                                                                 }
+                                                                                writeFile(arr,filename);
+                                                                                if(find(arr2,arr2+6,x)!=arr2+6){
+                                                                                    return row;
+                                                                                }
+                                                                                else{
+                                                                                    return x2;
+                                                                                }
                                                                         }
                                                                 }
                                                                 else{
@@ -681,6 +725,13 @@ void insert(int arr[10][11],int x,int rrn){
                                                                                         for(int i=1;i<=6;i++){
                                                                                             arr[x2][i]=arr3[i-1];
                                                                                       }
+                                                                                      writeFile(arr,filename);
+                                                                                      if(find(arr2,arr2+6,x)!=arr2+6){
+                                                                                            return row;
+                                                                                        }
+                                                                                        else{
+                                                                                            return x2;
+                                                                                        }
                                                                                 }
                                                                                 else if(find(arr4,arr4+size1,max1)!=(arr4+size1)){
                                                                                     arr4[5]=min1;
@@ -767,6 +818,13 @@ void insert(int arr[10][11],int x,int rrn){
                                                                                         }
                                                                                         arr[0][1]=-1;
                                                                                     }
+                                                                                    writeFile(arr,filename);
+                                                                                    if(find(arr2,arr2+6,x)!=arr2+6){
+                                                                                            return row;
+                                                                                        }
+                                                                                        else{
+                                                                                            return x2;
+                                                                                        }
                                                                         }
                                                                         }
                                                             }
@@ -802,6 +860,8 @@ void insert(int arr[10][11],int x,int rrn){
                             temp=arr[row][j];
                             j-=2;
                             }
+                            writeFile(arr,filename);
+                            return row;
                     }
                     else{
                         j-=2;
@@ -924,6 +984,13 @@ void insert(int arr[10][11],int x,int rrn){
                                     for(int i=1;i<=6;i++){
                                     arr[x2][i]=arr3[i-1];
                                   }
+                                  writeFile(arr,filename);
+                                  if(find(arr2,arr2+6,x)!=arr2+6){
+                                        return row;
+                                    }
+                                    else{
+                                        return x2;
+                                    }
                                 }
                         }
                         else{
@@ -1101,15 +1168,26 @@ void insert(int arr[10][11],int x,int rrn){
                                     for(int i=1;i<=6;i++){
                                         arr[x2][i]=arr3[i-1];
                                   }
+                                  writeFile(arr,filename);
+                                  if(find(arr2,arr2+6,x)!=arr2+6){
+                                        return row;
+                                    }
+                                    else{
+                                        return x2;
+                                    }
                                 }
                                 }
                     }
             }
     }
     }
+    return -1;
     }
 
-void Delete(int arr[10][11],int ID){
+void DeleteRecordFromIndex (char* filename,int ID){
+    fstream file(filename,ios::in|ios::out);
+    int arr[10][11];
+    readFile(arr,filename);
     int i=1;
     while(ID>arr[1][i]){
         i+=2;
@@ -1174,9 +1252,13 @@ void Delete(int arr[10][11],int ID){
                         l++;
                    }
                    arr[0][1]=row1;
+                   writeFile(arr,filename);
                    for(int i=0;i<arr1.size();i+=2){
-                        insert(arr,arr1[i],arr1[i+1]);
+                        InsertNewRecordAtIndex(filename,arr1[i],arr1[i+1]);
                    }
+                }
+                else{
+                    writeFile(arr,filename);
                 }
            }
         }
@@ -1232,9 +1314,13 @@ void Delete(int arr[10][11],int ID){
                         l++;
                    }
                    arr[0][1]=row1;
+                   writeFile(arr,filename);
                    for(int i=0;i<arr1.size();i+=2){
-                        insert(arr,arr1[i],arr1[i+1]);
+                        InsertNewRecordAtIndex(filename,arr1[i],arr1[i+1]);
                    }
+                }
+                else{
+                    writeFile(arr,filename);
                 }
             }
     }
@@ -1300,9 +1386,13 @@ void Delete(int arr[10][11],int ID){
                         l++;
                    }
                    arr[0][1]=row1;
+                   writeFile(arr,filename);
                    for(int i=0;i<arr1.size();i+=2){
-                        insert(arr,arr1[i],arr1[i+1]);
+                        InsertNewRecordAtIndex(filename,arr1[i],arr1[i+1]);
                    }
+                }
+                else{
+                    writeFile(arr,filename);
                 }
             }
 
@@ -1359,9 +1449,13 @@ void Delete(int arr[10][11],int ID){
                         l++;
                    }
                    arr[0][1]=row1;
+                   writeFile(arr,filename);
                    for(int i=0;i<arr1.size();i+=2){
-                        insert(arr,arr1[i],arr1[i+1]);
+                        InsertNewRecordAtIndex(filename,arr1[i],arr1[i+1]);
                    }
+                }
+                else{
+                    writeFile(arr,filename);
                 }
             }
     }
@@ -1381,28 +1475,28 @@ int main()
 //        }
 //    }
 //
-//    insert(x,3,12);
-//    insert(x,7,24);
-//    insert(x,10,48);
-//    insert(x,24,60);
-//    insert(x,14,72);
-//    insert(x,19,84);
-//    insert(x,30,96);
-//    insert(x,15,108);
-//    insert(x,1,120);
-//    insert(x,5,132);
-//    insert(x,2,144);
-//    insert(x,8,156);
-//    insert(x,9,168);
-//    insert(x,6,180);
-//    insert(x,11,192);
-//    insert(x,12,204);
-//    insert(x,17,216);
-//    insert(x,18,228);
-//    insert(x,32,240);
-//    Delete(x,10);
-//    Delete(x,9);
-//    Delete(x,8);
+//    cout<<InsertNewRecordAtIndex("btree.txt",3,12)<<endl;
+//    InsertNewRecordAtIndex("btree.txt",7,24);
+//    InsertNewRecordAtIndex("btree.txt",10,48);
+//    InsertNewRecordAtIndex("btree.txt",24,60);
+//    InsertNewRecordAtIndex("btree.txt",14,72);
+//    InsertNewRecordAtIndex("btree.txt",19,84);
+//    InsertNewRecordAtIndex("btree.txt",30,96);
+//    InsertNewRecordAtIndex("btree.txt",15,108);
+//    InsertNewRecordAtIndex("btree.txt",1,120);
+//    InsertNewRecordAtIndex("btree.txt",5,132);
+//    InsertNewRecordAtIndex("btree.txt",2,144);
+//    InsertNewRecordAtIndex("btree.txt",8,156);
+//    InsertNewRecordAtIndex("btree.txt",9,168);
+//    InsertNewRecordAtIndex("btree.txt",6,180);
+//    InsertNewRecordAtIndex("btree.txt",11,192);
+//    InsertNewRecordAtIndex("btree.txt",12,204);
+//    InsertNewRecordAtIndex("btree.txt",17,216);
+//    InsertNewRecordAtIndex("btree.txt",18,228);
+//    InsertNewRecordAtIndex("btree.txt",32,240);
+//    DeleteRecordFromIndex("btree.txt",10);
+//    DeleteRecordFromIndex("btree.txt",9);
+    DeleteRecordFromIndex("btree.txt",8);
 //
 //    for(int i=0;i<10;i++){
 //        for(int j=0;j<11;j++){
@@ -1413,6 +1507,6 @@ int main()
 
 
 //CreateIndexFileFile("btree.txt",10,5);
-//DisplayIndexFileContent("btree.txt");
+DisplayIndexFileContent("btree.txt");
     return 0;
 }
