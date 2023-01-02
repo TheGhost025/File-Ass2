@@ -1184,6 +1184,150 @@ int InsertNewRecordAtIndex(char* filename,int x,int rrn){
     return -1;
     }
 
+    // -----------------------------
+// -----------------------------
+// -----------------------------
+// -----------------------------
+// --------redistribution-------
+// -----------------------------
+// -----------------------------
+// -----------------------------
+// -----------------------------
+
+//editedRow is the row we deleted from
+//redistributedRow is the row we will take values from
+//rl is a char either 'r' for right or 'l' for left
+//deleted is the key we deleted from the tree
+
+void redistribution(char *filename, int arr[10][11], int editedRow, int redistributedRow, int parentRow, char rl, int deleted) {
+    // if the redistribution leads us to the right sibling
+    if (rl == 'r') {
+        // take the first key : value as it will always be sorted
+        int tempKey = arr[redistributedRow][1];
+        int tempValue = arr[redistributedRow][2];
+        // if we deleted the first key : value shift the row to the left
+        if (arr[editedRow][1] == -1) {
+            arr[editedRow][1] = arr[editedRow][3];
+            arr[editedRow][2] = arr[editedRow][4];
+        }
+        // assign the right key : value to the value we took
+        arr[editedRow][3] = tempKey;
+        arr[editedRow][4] = tempValue;
+        // update the parent node with the new values
+        for (int i = 1; i < 11; i += 2) {
+            if (arr[parentRow][i] == arr[editedRow][1] || arr[parentRow][i] == arr[editedRow][2]) {
+                arr[parentRow][i] = tempKey;
+                break;
+            }
+        }
+        // update the root if we didn't updated it
+        if (parentRow != 1) {
+            for (int i = 1; i < 11; i += 2) {
+                if (arr[1][i] == arr[editedRow][1] || arr[1][i] == arr[editedRow][2]) {
+                    arr[1][i] = tempKey;
+                    break;
+                }
+            }
+        }
+        // shift the redistributed row
+        for (int i = 3; i < 11; i++) {
+            arr[redistributedRow][i - 2] = arr[redistributedRow][i];
+        }
+    }
+    // the left sibling
+    else if (rl == 'l') {
+        int tempKey, tempValue;
+
+        for (int i = 1; i < 11; i += 2) {
+            // get the right most key : value from the e redistributed row;
+            if (arr[redistributedRow][i] == -1) {
+                tempKey = arr[redistributedRow][i - 2];
+                tempValue = arr[redistributedRow][i - 1];
+                arr[redistributedRow][i - 2] = -1;
+                arr[redistributedRow][i - 1] = -1;
+                // update the parent node with the new values
+                for (int j = 1; j < 11; j += 2) {
+                    if (arr[parentRow][j] == tempKey) {
+                        arr[parentRow][j] = arr[redistributedRow][i - 4];
+                        break;
+                    }
+                }
+
+                // update the root if we didn't updated it
+                if (parentRow != 1) {
+                    for (int k = 1; k < 11; k += 2) {
+                        if (arr[1][k] == arr[editedRow][1] || arr[1][k] == arr[editedRow][2]) {
+                            arr[1][k] = tempKey;
+                            break;
+                        }
+                    }
+                }
+                break;
+            }
+        }
+        // the max key in the edited row
+        int maxKey = arr[editedRow][1];
+        // shift the value
+        arr[editedRow][3] = arr[editedRow][1];
+        arr[editedRow][4] = arr[editedRow][2];
+        // assign the value
+        arr[editedRow][1] = tempKey;
+        arr[editedRow][2] = tempValue;
+
+        if (deleted > maxKey) {
+            // update the parent node with the new values
+            for (int j = 1; j < 11; j += 2){
+                if (arr[parentRow][j] == deleted) {
+                    arr[parentRow][j] = maxKey;
+                    break;
+                }
+            }
+            // update the root if we didn't updated it
+            if (parentRow != 1) {
+                for (int k = 1; k < 11; k += 2) {
+                    if (arr[1][k] == tempKey) {
+                        arr[1][k] = maxKey;
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    else {
+        cout << "Redistribution error accured" << endl;
+    }
+    // write the new values to the file
+    writeFile(arr, filename);
+}
+// -----------------------------
+// -----------------------------
+// -----------------------------
+// -----------------------------
+// -----------Search------------
+// -----------------------------
+// -----------------------------
+// -----------------------------
+// -----------------------------
+
+// used with the root first
+// int value = search(arr, key, 1);
+int search(int arr[10][11], int key, int row = 1) {
+    if (arr[row][0] == 0) { // leaf
+        for (int i = 1; i < 11; i += 2) {
+            if (arr[row][i] == key)
+                return arr[row][i + 1];
+
+            if (i == 9)
+                return -1;
+        }
+    }
+    else if (arr[row][0] == 1) { // non-leaf
+        for (int i = 1; i < 11; i += 2) {
+            if (arr[row][i] >= key)
+                return search(arr, key, i + 1);
+        }
+    }
+}
 void DeleteRecordFromIndex (char* filename,int ID){
     fstream file(filename,ios::in|ios::out);
     int arr[10][11];
@@ -1226,36 +1370,47 @@ void DeleteRecordFromIndex (char* filename,int ID){
             }
             if(count3<=1){
                     int row1=arr[row][j-1];
-                    int o=j-1;
-                    arr[row][o]=-1;
-                    o--;
-                    arr[row][o]=-1;
-                    o+=2;
-                    while(arr[row][o]!=-1){
-                        int temp1=arr[row][o+1];
-                        arr[row][o-2]=arr[row][o];
-                        arr[row][o+1]=arr[row][o-1];
-                        arr[row][o-1]=temp1;
-                        arr[row][o]=temp;
-                        temp=arr[row][o];
-                        o+=2;
+                    int count4=0;
+                    k=1;
+                    while(arr[row1][k]!=-1){
+                        count4++;
+                        k+=2;
                     }
-                   vector<int> arr1;
-                   int l=1;
-                   while(arr[row1][l]!=-1){
-                        arr1.push_back(arr[row1][l]);
-                        l++;
-                   }
-                   l=0;
-                    while(arr[row1][l]!=-1){
-                        arr[row1][l]=-1;
-                        l++;
-                   }
-                   arr[0][1]=row1;
-                   writeFile(arr,filename);
-                   for(int i=0;i<arr1.size();i+=2){
-                        InsertNewRecordAtIndex(filename,arr1[i],arr1[i+1]);
-                   }
+                    if(count4>2){
+                        redistribution(filename,arr,rw,row1,row,'l',ID);
+                    }
+                    else{
+                            int o=j-1;
+                            arr[row][o]=-1;
+                            o--;
+                            arr[row][o]=-1;
+                            o+=2;
+                            while(arr[row][o]!=-1){
+                                int temp1=arr[row][o+1];
+                                arr[row][o-2]=arr[row][o];
+                                arr[row][o+1]=arr[row][o-1];
+                                arr[row][o-1]=temp1;
+                                arr[row][o]=temp;
+                                temp=arr[row][o];
+                                o+=2;
+                            }
+                           vector<int> arr1;
+                           int l=1;
+                           while(arr[row1][l]!=-1){
+                                arr1.push_back(arr[row1][l]);
+                                l++;
+                           }
+                           l=0;
+                            while(arr[row1][l]!=-1){
+                                arr[row1][l]=-1;
+                                l++;
+                           }
+                           arr[0][1]=row1;
+                           writeFile(arr,filename);
+                           for(int i=0;i<arr1.size();i+=2){
+                                InsertNewRecordAtIndex(filename,arr1[i],arr1[i+1]);
+                           }
+                    }
                 }
                 else{
                     writeFile(arr,filename);
@@ -1288,36 +1443,47 @@ void DeleteRecordFromIndex (char* filename,int ID){
             }
             if(count3<=1){
                     int row1=arr[1][i-1];
-                    int o=j-1;
-                    arr[row][o]=-1;
-                    o--;
-                    arr[row][o]=-1;
-                    o+=2;
-                    while(arr[1][o]!=-1){
-                        int temp1=arr[1][o+1];
-                        arr[1][o-2]=arr[1][o];
-                        arr[1][o+1]=arr[1][o-1];
-                        arr[1][o-1]=temp1;
-                        arr[1][o]=temp;
-                        temp=arr[1][o];
-                        o+=2;
+                    int count4=0;
+                    k=1;
+                    while(arr[row1][k]!=-1){
+                        count4++;
+                        k+=2;
                     }
-                   vector<int> arr1;
-                   int l=1;
-                   while(arr[row1][l]!=-1){
-                        arr1.push_back(arr[row1][l]);
-                        l++;
-                   }
-                   l=0;
-                    while(arr[row1][l]!=-1){
-                        arr[row1][l]=-1;
-                        l++;
-                   }
-                   arr[0][1]=row1;
-                   writeFile(arr,filename);
-                   for(int i=0;i<arr1.size();i+=2){
-                        InsertNewRecordAtIndex(filename,arr1[i],arr1[i+1]);
-                   }
+                    if(count4>2){
+                        redistribution(filename,arr,row,row1,1,'l',ID);
+                    }
+                    else{
+                            int o=j-1;
+                            arr[row][o]=-1;
+                            o--;
+                            arr[row][o]=-1;
+                            o+=2;
+                            while(arr[row][o]!=-1){
+                                int temp1=arr[row][o+1];
+                                arr[row][o-2]=arr[row][o];
+                                arr[row][o+1]=arr[row][o-1];
+                                arr[row][o-1]=temp1;
+                                arr[row][o]=temp;
+                                temp=arr[row][o];
+                                o+=2;
+                            }
+                           vector<int> arr1;
+                           int l=1;
+                           while(arr[row1][l]!=-1){
+                                arr1.push_back(arr[row1][l]);
+                                l++;
+                           }
+                           l=0;
+                            while(arr[row1][l]!=-1){
+                                arr[row1][l]=-1;
+                                l++;
+                           }
+                           arr[0][1]=row1;
+                           writeFile(arr,filename);
+                           for(int i=0;i<arr1.size();i+=2){
+                                InsertNewRecordAtIndex(filename,arr1[i],arr1[i+1]);
+                           }
+                    }
                 }
                 else{
                     writeFile(arr,filename);
@@ -1360,36 +1526,47 @@ void DeleteRecordFromIndex (char* filename,int ID){
             }
             if(count3<=1){
                     int row1=arr[row][j-1];
-                    int o=j-1;
-                    arr[row][o]=-1;
-                    o--;
-                    arr[row][o]=-1;
-                    o+=2;
-                    while(arr[row][o]!=-1){
-                        int temp1=arr[row][o+1];
-                        arr[row][o-2]=arr[row][o];
-                        arr[row][o+1]=arr[row][o-1];
-                        arr[row][o-1]=temp1;
-                        arr[row][o]=temp;
-                        temp=arr[row][o];
-                        o+=2;
+                    int count4=0;
+                    k=1;
+                    while(arr[row1][k]!=-1){
+                        count4++;
+                        k+=2;
                     }
-                   vector<int> arr1;
-                   int l=1;
-                   while(arr[row1][l]!=-1){
-                        arr1.push_back(arr[row1][l]);
-                        l++;
-                   }
-                   l=0;
-                    while(arr[row1][l]!=-1){
-                        arr[row1][l]=-1;
-                        l++;
-                   }
-                   arr[0][1]=row1;
-                   writeFile(arr,filename);
-                   for(int i=0;i<arr1.size();i+=2){
-                        InsertNewRecordAtIndex(filename,arr1[i],arr1[i+1]);
-                   }
+                    if(count4>2){
+                        redistribution(filename,arr,rw,row1,row,'l',ID);
+                    }
+                    else{
+                            int o=j-1;
+                            arr[row][o]=-1;
+                            o--;
+                            arr[row][o]=-1;
+                            o+=2;
+                            while(arr[row][o]!=-1){
+                                int temp1=arr[row][o+1];
+                                arr[row][o-2]=arr[row][o];
+                                arr[row][o+1]=arr[row][o-1];
+                                arr[row][o-1]=temp1;
+                                arr[row][o]=temp;
+                                temp=arr[row][o];
+                                o+=2;
+                            }
+                           vector<int> arr1;
+                           int l=1;
+                           while(arr[row1][l]!=-1){
+                                arr1.push_back(arr[row1][l]);
+                                l++;
+                           }
+                           l=0;
+                            while(arr[row1][l]!=-1){
+                                arr[row1][l]=-1;
+                                l++;
+                           }
+                           arr[0][1]=row1;
+                           writeFile(arr,filename);
+                           for(int i=0;i<arr1.size();i+=2){
+                                InsertNewRecordAtIndex(filename,arr1[i],arr1[i+1]);
+                           }
+                    }
                 }
                 else{
                     writeFile(arr,filename);
@@ -1423,36 +1600,47 @@ void DeleteRecordFromIndex (char* filename,int ID){
                 }
                 if(count3<=1){
                     int row1=arr[1][j-1];
-                    int o=j-1;
-                    arr[1][o]=-1;
-                    o--;
-                    arr[1][o]=-1;
-                    o+=2;
-                    while(arr[1][o]!=-1){
-                        int temp1=arr[1][o+1];
-                        arr[1][o-2]=arr[1][o];
-                        arr[1][o+1]=arr[1][o-1];
-                        arr[1][o-1]=temp1;
-                        arr[1][o]=temp;
-                        temp=arr[1][o];
-                        o+=2;
+                    int count4=0;
+                    int k=1;
+                    while(arr[row1][k]!=-1){
+                        count4++;
+                        k+=2;
                     }
-                   vector<int> arr1;
-                   int l=1;
-                   while(arr[row1][l]!=-1){
-                        arr1.push_back(arr[row1][l]);
-                        l++;
-                   }
-                   l=0;
-                    while(arr[row1][l]!=-1){
-                        arr[row1][l]=-1;
-                        l++;
-                   }
-                   arr[0][1]=row1;
-                   writeFile(arr,filename);
-                   for(int i=0;i<arr1.size();i+=2){
-                        InsertNewRecordAtIndex(filename,arr1[i],arr1[i+1]);
-                   }
+                    if(count4>2){
+                        redistribution(filename,arr,row,row1,1,'l',ID);
+                    }
+                    else{
+                            int o=j-1;
+                            arr[row][o]=-1;
+                            o--;
+                            arr[row][o]=-1;
+                            o+=2;
+                            while(arr[row][o]!=-1){
+                                int temp1=arr[row][o+1];
+                                arr[row][o-2]=arr[row][o];
+                                arr[row][o+1]=arr[row][o-1];
+                                arr[row][o-1]=temp1;
+                                arr[row][o]=temp;
+                                temp=arr[row][o];
+                                o+=2;
+                            }
+                           vector<int> arr1;
+                           int l=1;
+                           while(arr[row1][l]!=-1){
+                                arr1.push_back(arr[row1][l]);
+                                l++;
+                           }
+                           l=0;
+                            while(arr[row1][l]!=-1){
+                                arr[row1][l]=-1;
+                                l++;
+                           }
+                           arr[0][1]=row1;
+                           writeFile(arr,filename);
+                           for(int i=0;i<arr1.size();i+=2){
+                                InsertNewRecordAtIndex(filename,arr1[i],arr1[i+1]);
+                           }
+                    }
                 }
                 else{
                     writeFile(arr,filename);
@@ -1496,7 +1684,7 @@ int main()
 //    InsertNewRecordAtIndex("btree.txt",32,240);
 //    DeleteRecordFromIndex("btree.txt",10);
 //    DeleteRecordFromIndex("btree.txt",9);
-    DeleteRecordFromIndex("btree.txt",8);
+//    DeleteRecordFromIndex("btree.txt",8);
 //
 //    for(int i=0;i<10;i++){
 //        for(int j=0;j<11;j++){
