@@ -1311,23 +1311,39 @@ void redistribution(char *filename, int arr[10][11], int editedRow, int redistri
 
 // used with the root first
 // int value = search(arr, key, 1);
-int search(int arr[10][11], int key, int row = 1) {
-    if (arr[row][0] == 0) { // leaf
-        for (int i = 1; i < 11; i += 2) {
-            if (arr[row][i] == key)
-                return arr[row][i + 1];
-
-            if (i == 9)
-                return -1;
-        }
+int SearchARecord(char* filename, int key) {
+    fstream file(filename,ios::out|ios::in);
+    int x;
+    file.seekg(44,ios::beg);
+    file.read((char*)& x,sizeof(int));
+    while(x!=0){
+            int y;
+            file.read((char*)& y,sizeof(int));
+            while(key>y){
+                file.seekg(4,ios::cur);
+                file.read((char*)& y,sizeof(int));
+            }
+            file.read((char*)& y,sizeof(int));
+            file.seekg(44*y,ios::beg);
+            file.read((char*)& x,sizeof(int));
     }
-    else if (arr[row][0] == 1) { // non-leaf
-        for (int i = 1; i < 11; i += 2) {
-            if (arr[row][i] >= key)
-                return search(arr, key, i + 1);
+    if(x==0){
+        file.read((char*)& x,sizeof(int));
+        while(key!=x&&x!=-1){
+                cout<<x<<endl;
+            file.seekg(4,ios::cur);
+            file.read((char*)& x,sizeof(int));
+        }
+        if(key==x){
+            file.read((char*)& x,sizeof(int));
+            return x;
+        }
+        else{
+            return -1;
         }
     }
 }
+
 void DeleteRecordFromIndex (char* filename,int ID){
     fstream file(filename,ios::in|ios::out);
     int arr[10][11];
@@ -1695,6 +1711,8 @@ int main()
 
 
 //CreateIndexFileFile("btree.txt",10,5);
-DisplayIndexFileContent("btree.txt");
+//DisplayIndexFileContent("btree.txt");
+
+cout<<SearchARecord("btree.txt",32);
     return 0;
 }
