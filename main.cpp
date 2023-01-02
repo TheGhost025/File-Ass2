@@ -1336,9 +1336,11 @@ int SearchARecord(char* filename, int key) {
         }
         if(key==x){
             file.read((char*)& x,sizeof(int));
+            file.close();
             return x;
         }
         else{
+            file.close();
             return -1;
         }
     }
@@ -1713,6 +1715,6 @@ int main()
 //CreateIndexFileFile("btree.txt",10,5);
 //DisplayIndexFileContent("btree.txt");
 
-cout<<SearchARecord("btree.txt",32);
+//cout<<SearchARecord("btree.txt",32);
     return 0;
 }
