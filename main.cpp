@@ -6,10 +6,11 @@
 
 using namespace std;
 
+
 void CreateIndexFileFile(char* filename, int numberOfRecords, int m){
     fstream file(filename,ios::in|ios::out|ios::app);
      for(int i=0;i<numberOfRecords;i++){
-        for(int j=0;j<numberOfRecords+1;j++){
+        for(int j=0;j<(m*2)+1;j++){
             if(j==1){
                 int z=i+1;
                 file.write((char*)& z,sizeof(int));
@@ -1642,6 +1643,7 @@ void DeleteRecordFromIndex (char* filename,int ID){
                     temp=arr[row][j];
                     j+=2;
                 }
+                arr[1][i]=arr[row][j-4];
                 i=1;
                 int count3=0;
                 while(arr[row][i]!=-1){
@@ -1649,8 +1651,8 @@ void DeleteRecordFromIndex (char* filename,int ID){
                     i+=2;
                 }
                 if(count3<=1){
-                    int row1=arr[1][j-1];
-                    int row2=arr[1][j+3];
+                    int row1=arr[1][i-1];
+                    int row2=arr[1][i+3];
                     int count4=0;
                     int count5=0;
                     int k=1;
