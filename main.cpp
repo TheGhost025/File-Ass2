@@ -1330,7 +1330,6 @@ int SearchARecord(char* filename, int key) {
     if(x==0){
         file.read((char*)& x,sizeof(int));
         while(key!=x&&x!=-1){
-                cout<<x<<endl;
             file.seekg(4,ios::cur);
             file.read((char*)& x,sizeof(int));
         }
@@ -1343,6 +1342,9 @@ int SearchARecord(char* filename, int key) {
             file.close();
             return -1;
         }
+    }
+    else{
+        return -1;
     }
 }
 
@@ -1388,14 +1390,24 @@ void DeleteRecordFromIndex (char* filename,int ID){
             }
             if(count3<=1){
                     int row1=arr[row][j-1];
+                    int row2=arr[row][j+3];
                     int count4=0;
+                    int count5=0;
                     k=1;
                     while(arr[row1][k]!=-1){
                         count4++;
                         k+=2;
                     }
-                    if(count4>2){
+                    k=1;
+                    while(arr[row2][k]!=-1){
+                        count5++;
+                        k+=2;
+                    }
+                    if(count4>2&&row1!=-1){
                         redistribution(filename,arr,rw,row1,row,'l',ID);
+                    }
+                    else if(count5>2&&row2!=-1){
+                        redistribution(filename,arr,rw,row1,row,'r',ID);
                     }
                     else{
                             int o=j-1;
@@ -1461,14 +1473,24 @@ void DeleteRecordFromIndex (char* filename,int ID){
             }
             if(count3<=1){
                     int row1=arr[1][i-1];
+                    int row2=arr[row][i+3];
                     int count4=0;
+                    int count5=0;
                     k=1;
                     while(arr[row1][k]!=-1){
                         count4++;
                         k+=2;
                     }
-                    if(count4>2){
+                    k=1;
+                    while(arr[row2][k]!=-1){
+                        count5++;
+                        k+=2;
+                    }
+                    if(count4>2&&row1!=-1){
                         redistribution(filename,arr,row,row1,1,'l',ID);
+                    }
+                    else if(count5>2&&row2!=-1){
+                        redistribution(filename,arr,row,row1,1,'r',ID);
                     }
                     else{
                             int o=j-1;
@@ -1544,14 +1566,24 @@ void DeleteRecordFromIndex (char* filename,int ID){
             }
             if(count3<=1){
                     int row1=arr[row][j-1];
+                    int row2=arr[row][j+3];
                     int count4=0;
+                    int count5=0;
                     k=1;
                     while(arr[row1][k]!=-1){
                         count4++;
                         k+=2;
                     }
-                    if(count4>2){
+                    k=1;
+                    while(arr[row2][k]!=-1){
+                        count5++;
+                        k+=2;
+                    }
+                    if(count4>2&&row1!=-1){
                         redistribution(filename,arr,rw,row1,row,'l',ID);
+                    }
+                    else if(count5>2&&row2!=-1){
+                        redistribution(filename,arr,rw,row1,row,'r',ID);
                     }
                     else{
                             int o=j-1;
@@ -1618,14 +1650,24 @@ void DeleteRecordFromIndex (char* filename,int ID){
                 }
                 if(count3<=1){
                     int row1=arr[1][j-1];
+                    int row2=arr[1][j+3];
                     int count4=0;
+                    int count5=0;
                     int k=1;
                     while(arr[row1][k]!=-1){
                         count4++;
                         k+=2;
                     }
-                    if(count4>2){
+                    k=1;
+                    while(arr[row2][k]!=-1){
+                        count5++;
+                        k+=2;
+                    }
+                    if(count4>2&&row1!=-1){
                         redistribution(filename,arr,row,row1,1,'l',ID);
+                    }
+                    else if(count5>2&&row2!=-1){
+                        redistribution(filename,arr,row,row1,1,'r',ID);
                     }
                     else{
                             int o=j-1;
@@ -1642,22 +1684,22 @@ void DeleteRecordFromIndex (char* filename,int ID){
                                 temp=arr[row][o];
                                 o+=2;
                             }
-                           vector<int> arr1;
-                           int l=1;
-                           while(arr[row1][l]!=-1){
+                            vector<int> arr1;
+                            int l=1;
+                            while(arr[row1][l]!=-1){
                                 arr1.push_back(arr[row1][l]);
                                 l++;
-                           }
-                           l=0;
+                            }
+                            l = 0;
                             while(arr[row1][l]!=-1){
                                 arr[row1][l]=-1;
                                 l++;
-                           }
-                           arr[0][1]=row1;
-                           writeFile(arr,filename);
-                           for(int i=0;i<arr1.size();i+=2){
+                            }
+                            arr[0][1]=row1;
+                            writeFile(arr,filename);
+                            for(int i=0;i<arr1.size();i+=2){
                                 InsertNewRecordAtIndex(filename,arr1[i],arr1[i+1]);
-                           }
+                            }
                     }
                 }
                 else{
@@ -1667,21 +1709,54 @@ void DeleteRecordFromIndex (char* filename,int ID){
     }
 }
 
-int main()
-{
-//    int x[10][11];
-//    for(int i=0;i<10;i++){
-//        for(int j=0;j<11;j++){
-//            if(j==1){
-//                x[i][j]=i+1;
-//            }
-//            else{
-//                x[i][j]=-1;
-//            }
-//        }
-//    }
-//
-//    cout<<InsertNewRecordAtIndex("btree.txt",3,12)<<endl;
+int main() {
+    fstream bTreeFile("btree.txt", ios::in | ios::out);
+    bTreeFile.seekg(0, ios::end);
+    if(bTreeFile.tellg() != 0) {
+        CreateIndexFileFile("btree.txt",10,5);
+    }
+    bTreeFile.close();
+    int choice, key, ref, searched, inserted;
+    do {
+        cout << "1- Insert Record           2- Delete Record\n3- Search Record           4- Display\n5- Exit\n-->  ";
+        cin >> choice;
+        switch(choice){
+            case 1:
+                cout << "Enter the key and reference: ";
+                cin >> key >> ref;
+                inserted = InsertNewRecordAtIndex("btree.txt", key, ref);
+                if(inserted == -1) {
+                    cout << "Error Insertion\n";
+                    break;
+                }
+                cout << "Inserted at " << inserted << endl;
+                break;
+            case 2:
+                cout << "Enter the key: ";
+                cin >> key;
+                DeleteRecordFromIndex("btree.txt", key);
+                break;
+            case 3:
+                cout << "Enter the key: ";
+                cin >> key;
+                searched = SearchARecord("btree.txt", key);
+                if(searched == -1) {
+                    cout << "Not Found\n";
+                    break;
+                }
+                cout << "Reference " << searched << " Found\n";
+                break;
+            case 4:
+                DisplayIndexFileContent("btree.txt");
+                break;
+            default:
+                break;
+        }
+    } while(choice != 5);
+
+    return 0;
+
+//    InsertNewRecordAtIndex("btree.txt",3,12);
 //    InsertNewRecordAtIndex("btree.txt",7,24);
 //    InsertNewRecordAtIndex("btree.txt",10,48);
 //    InsertNewRecordAtIndex("btree.txt",24,60);
@@ -1690,12 +1765,12 @@ int main()
 //    InsertNewRecordAtIndex("btree.txt",30,96);
 //    InsertNewRecordAtIndex("btree.txt",15,108);
 //    InsertNewRecordAtIndex("btree.txt",1,120);
+//    InsertNewRecordAtIndex("btree.txt",11,192);
 //    InsertNewRecordAtIndex("btree.txt",5,132);
 //    InsertNewRecordAtIndex("btree.txt",2,144);
 //    InsertNewRecordAtIndex("btree.txt",8,156);
 //    InsertNewRecordAtIndex("btree.txt",9,168);
 //    InsertNewRecordAtIndex("btree.txt",6,180);
-//    InsertNewRecordAtIndex("btree.txt",11,192);
 //    InsertNewRecordAtIndex("btree.txt",12,204);
 //    InsertNewRecordAtIndex("btree.txt",17,216);
 //    InsertNewRecordAtIndex("btree.txt",18,228);
@@ -1703,18 +1778,9 @@ int main()
 //    DeleteRecordFromIndex("btree.txt",10);
 //    DeleteRecordFromIndex("btree.txt",9);
 //    DeleteRecordFromIndex("btree.txt",8);
-//
-//    for(int i=0;i<10;i++){
-//        for(int j=0;j<11;j++){
-//            cout<<x[i][j]<<" ";
-//        }
-//        cout<<endl;
-//    }
 
+    //CreateIndexFileFile("btree.txt",10,5);
+    // DisplayIndexFileContent("btree.txt");
 
-//CreateIndexFileFile("btree.txt",10,5);
-//DisplayIndexFileContent("btree.txt");
-
-//cout<<SearchARecord("btree.txt",32);
-    return 0;
+    // cout<<SearchARecord("btree.txt",32);
 }

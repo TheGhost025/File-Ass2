@@ -1,0 +1,1 @@
+   DeleteRecordFromIndex("btree.txt",10);
